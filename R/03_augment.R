@@ -29,5 +29,5 @@ covid_data_augment <- covid_data_clean %>%
 
 
 # Write data --------------------------------------------------------------
-write_tsv(x = my_data_clean_aug,
-          file = "data/03_my_data_clean_aug.tsv")
+write_tsv(x = covid_data_augment,
+          file = "data/03_covid_data_augment.tsv")
