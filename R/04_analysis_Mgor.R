@@ -49,30 +49,30 @@ test_nested <-
             sd = sd(Fraction, na.rm = TRUE),
             min = min(Fraction, na.rm = TRUE),
             max = max(Fraction, na.rm = TRUE))
-   )
+   
 
 
-covid_data_augment %>% 
-  filter(Parent_population == "SARS_multimer+",
+covid_data_augment_TEST %>% 
+  filter(Parent_population == "SARS_multimer",
          Last_population == "CD38") %>%
   ggplot(mapping = aes(
     x = cohort_type,
     y = Fraction))+
     geom_dotplot(binaxis = "y",
                  stackdir = "center",
-                 fill = "gray")+
-  stat_compare_means(method = "t.test", comparisons = 
+                 fill = "red")+
+  geom_boxplot(outlier.shape = NA,
+               fill = NA,
+               color = "gray")+
+  stat_compare_means(method = "wilcox.test", comparisons = 
                        list(c("HD-1", "HD-2"),
                             c("HD-2", "Patient"),
                             c("HD-1", "Patient")),
-                     hide.ns = TRUE,
-                     symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
-                                      symbols = c("****", "***", "**", "*", "ns")) 
-  )+
-  theme_classic()+
-  geom_boxplot(outlier.shape = NA,
-               fill = NA)
+                     hide.ns = TRUE)+
+  theme_classic()
+  
 
+#--------
 p1 +  input_sum %>% 
   filter(Parent_population == "SARS_multimer+",
          Last_population == "CD38") %>%
@@ -133,8 +133,7 @@ covid_data_augment %>%
   geom_boxplot(outlier.shape = NA,
                fill = NA)+
   theme_classic()+
-  theme(legend.position = "none") +
-  stat_compare_means(method = "t.test", )
+  theme(legend.position = "none")
 
 ## functional boxplot ----------------------------------
 require(ggpubr)
@@ -147,11 +146,11 @@ covid_data_augment %>%
   geom_boxplot(outlier.shape = NA,
                color = "gray",
                fill = NA)+
-  geom_jitter()+
+  geom_jitter(color = "red")+
   theme_classic()+
-  stat_compare_means(method = "t.test", comparisons = 
-                       list(c("HD-1", "HD-2"),
-                            c("HD-2", "Patient"),
-                            c("HD-1", "Patient")),
-                     )
-
+  stat_compare_means(method = "wilcox.test",
+                     comparisons = list(c("HD-1", "HD-2"),
+                                        c("HD-2", "Patient"),
+                                        c("HD-1", "Patient")),
+                     symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
+                                        symbols = c("****", "***", "**", "*", "ns")))

@@ -2,68 +2,56 @@
 ## generating dotplot + boxplot
 
 ## loading libraries -------------------------------
-require(tidyverse)
-require(dplyr)
-require(ggpubr)
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(stringr)
 
-covid_data_augment_TEST <- covid_data_augment %>%
-  select(Parent_population) %>% 
-  str_replace("SARS_Multimer+","+", fix_replacement(""))
+#-Creating a function---------------------------------
+# parameters 1: dataframe
+#            2: Parent_population 
+#            3: Last_population
 
-
-#-----------------------
+plot_func <- function(data, Parent_pop, Last_pop, title){
+  require(ggpubr)
+  Title <- title
   
-covid_data_augment_TEST %>%
-  filter(Parent_population == "SARS_multimer+",
-         Last_population == "CD38") %>%
-  ggplot(data,
-         mapping = aes(
-           x = cohort_type,
-           y = Fraction))+
-  geom_dotplot(binaxis = "y",
-               stackdir = "center",
-               fill = "gray")+
-  stat_compare_means(method = "t.test", comparisons = 
-                       list(c("HD-1", "HD-2"),
-                            c("HD-2", "Patient"),
-                            c("HD-1", "Patient")),
-                     hide.ns = TRUE,
-                     symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
-                                        symbols = c("****", "***", "**", "*", "ns")) 
-  )+
-  theme_classic()+
-  geom_boxplot(outlier.shape = NA,
-               fill = NA)
-
-#---------------------------------
-
-
-plot_func <- function(data, Parent_population, Last_population){
   output <- data %>%
-    filter(Parent_population == Parent_population,
-           Last_population == Last_population) %>%
+    filter(Parent_population == Parent_pop,
+           Last_population == Last_pop) %>% 
     ggplot(data,
            mapping = aes(
       x = cohort_type,
       y = Fraction))+
+    geom_boxplot(outlier.shape = NA,
+                 fill = NA,
+                 color = "gray")+
     geom_dotplot(binaxis = "y",
                  stackdir = "center",
-                 fill = "gray")+
-    stat_compare_means(method = "t.test", comparisons = 
+                 fill = "red")+
+    stat_compare_means(method = "wilcox.test",
+                       alternative = "two.sided",
+                       paired = FALSE,
+                       conf.level = 0.95,
+                       conf.int = TRUE,
+                       na.action = na.exclude,
+                       comparisons = 
                          list(c("HD-1", "HD-2"),
                               c("HD-2", "Patient"),
                               c("HD-1", "Patient")),
-                       hide.ns = TRUE,
-                       symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
-                                          symbols = c("****", "***", "**", "*", "ns")) 
-    )+
+                       symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
+                                          symbols = c("****", "***", "**", "*", "ns")))+
     theme_classic()+
-    geom_boxplot(outlier.shape = NA,
-                 fill = NA)
+    labs(title = Title)+
+    xlab("Cohort")+
+    ylab("% Frequency")
   return(output)
-}
+  }
 
 ## Testing funciton
-plot_func(covid_data_augment_TEST, SARS_multimer+, CD38)
-  
+
+plot_func(covid_data_augment,
+          "SARS_multimer+",
+          "HLA-DR",
+          "Comparing SARS_multimer+ CD38+ cells")
   
