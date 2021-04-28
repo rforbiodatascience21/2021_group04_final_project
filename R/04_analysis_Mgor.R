@@ -154,3 +154,11 @@ covid_data_augment %>%
                                         c("HD-1", "Patient")),
                      symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
                                         symbols = c("****", "***", "**", "*", "ns")))
+
+
+
+#-------------
+covid_data_augment %>% 
+  filter(Parent_population == "SARS_multimer+",
+         Last_population == "CD38") %>%
+  View()
