@@ -47,9 +47,9 @@ covid_data_augment %>%
            geom_jitter(size=2, shape=1, position=position_jitter(0.0))+
            facet_wrap(vars(Last_population),
                       scales = "free_y",
-                      nrow = 1)+
+                      nrow = 2)+
            labs(title="Phenotype profile of SARS-CoV-2 specific T cells", y = "% of multimer+ CD8+ Tcells")+
-           theme_classic()+
+           theme_bw()+
            theme(axis.text.x=element_blank(),
                  axis.ticks.x=element_blank(),
                  legend.title = element_blank(),
