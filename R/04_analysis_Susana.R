@@ -75,6 +75,25 @@ covid_data_augment %>%
   )
 
 
+covid_data_augment %>% 
+  filter(cohort_type =="Patient",Parent_population =="SARS_multimer+", Last_population %in% c("CD38", "CD39", "HLA-DR", "PD-1")) %>%
+  ggplot(mapping = aes(x=Hospital_status, y = Fraction, color = Hospital_status)
+  )+
+  geom_boxplot(outlier.shape=1, outlier.size=2)+
+  stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
+  stat_summary(fun = mean, geom="point", size=3)+
+  facet_wrap(vars(Last_population),
+             scales = "free_y",
+             nrow = 2)+
+  geom_jitter(size=2, shape=1, position=position_jitter(0.0))+
+  labs(title="Percentage of SARS-CoV-2 pMHC multimer positive CD8+ T cells expressing the indicated surface markers in outpatients
+and hospitalized patients", y = "% of multimer+ CD8+ Tcells")+
+  theme_bw()+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.title = element_blank(),
+        axis.title.x = element_blank()
+  )
 
 # Write data --------------------------------------------------------------
 write_tsv(...)
