@@ -86,7 +86,7 @@ covid_data_augment %>%
              scales = "free_y",
              nrow = 2)+
   geom_jitter(size=2, shape=1, position=position_jitter(0.0))+
-  labs(title="Percentage of SARS-CoV-2 pMHC multimer positive CD8+ T cells expressing the indicated surface markers in outpatients
+  labs(title="SARS-CoV-2 pMHC multimer positive CD8+ T cells expressing the indicated surface markers in outpatients
 and hospitalized patients", y = "% of multimer+ CD8+ Tcells")+
   theme_bw()+
   theme(axis.text.x=element_blank(),
