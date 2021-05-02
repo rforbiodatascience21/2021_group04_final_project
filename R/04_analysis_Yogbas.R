@@ -67,8 +67,9 @@ covid_data_augment_wide <- covid_data_augment %>%
 covid_data_augment_wide %>% 
   filter(Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1"),
          str_detect(Parent_population, "SARS")) %>% 
-  geom_point(aes(x = Hospitalized, 
-                y = Outpatient))+
+  ggplot(mapping = aes(x = "Hospitalized", 
+                y = "Outpatient"))+
+  geom_point()+
   facet_wrap(vars(Last_population))
 
 # Write data --------------------------------------------------------------
