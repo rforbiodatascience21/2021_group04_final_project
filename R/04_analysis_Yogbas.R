@@ -58,16 +58,18 @@ covid_data_augment %>%
 #Plotting a correlation plot for the cell surface markers detected in 
 #hospitalized vs outpatients
 
-covid_data_augment %>% 
+
+
+covid_data_augment_wide <- covid_data_augment %>% 
+  pivot_wider(names_from = Hospital_status,
+                            values_from = Fraction)
+
+covid_data_augment_wide %>% 
   filter(Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1"),
          str_detect(Parent_population, "SARS")) %>% 
-ggscatter(aes(x = "Hospitalized", 
-              y = "Outpatient",
-            add = "reg.line", conf.int = TRUE, 
-          cor.coef = TRUE, cor.method = "pearson"))+
-facet_wrap(vars(Last_population),
-             scales = "free_y",
-             nrow = 1)
+  geom_point(aes(x = Hospitalized, 
+                y = Outpatient))+
+  facet_wrap(vars(Last_population))
 
 # Write data --------------------------------------------------------------
 #write_tsv(...)
