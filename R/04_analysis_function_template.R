@@ -72,46 +72,31 @@ new_func(data = covid_data_augment,
 
 
 #----------EXAMPLE FUNCTION WHICH WORKS----------
-plot_func <- function(data, Parent_pop, Last_pop, title){
+plot_func <- function(data, Parent_pop, Last_pop, strat, title){
   require(ggpubr)
   Title <- title
-  
   output <- data %>%
     filter(Parent_population == Parent_pop,
            Last_population == Last_pop) %>% 
-    ggplot(mapping = aes(
-      x = cohort_type,
-      y = Fraction))+
+    ggplot(mapping = aes(y = Fraction,
+                         x = Last_pop,
+                         color = strat))+
     geom_boxplot(outlier.shape = NA,
                  fill = NA,
                  color = "gray")+
     stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
-    geom_dotplot(binaxis = "y",
-                 stackdir = "center",
-                 fill = "red")+
-    stat_compare_means(method = "wilcox.test",
-                       alternative = "two.sided",
-                       paired = FALSE,
-                       conf.level = 0.95,
-                       conf.int = TRUE,
-                       na.action = na.exclude,
-                       test.args = list(exact = FALSE),
-                       comparisons = 
-                         list(c("HD-1", "HD-2"),
-                              c("HD-2", "Patient"),
-                              c("HD-1", "Patient")),
-                       symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
-                                          symbols = c("****", "***", "**", "*", "ns"))
-    )+
+    geom_point()+
     theme_classic()+
     labs(title = Title)+
     xlab("Cohort")+
-    ylab("% Frequency")
+    ylab("% of")
   return(output)
 }
 
 #--------RUNNING THE TEST FUNCTION--------
-plot_func(covid_data_augment,
-          "SARS_multimer+",
-          "HLA-DR",
-          "Comparing SARS_multimer+ CD38+ cells")
+plot_func(data = covid_data_augment,
+          Parent_pop = "SARS_multimer+",
+          Last_pop = "HLA-DR",
+          strat = cohort_type,
+          title = "Comparing SARS-Cov2 multimer+ cells")
+
