@@ -25,6 +25,7 @@ plot_func <- function(data, Parent_pop, Last_pop, title){
     geom_boxplot(outlier.shape = NA,
                  fill = NA,
                  color = "gray")+
+    stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
     geom_dotplot(binaxis = "y",
                  stackdir = "center",
                  fill = "red")+
@@ -57,7 +58,11 @@ plot_func(covid_data_augment,
           "Comparing SARS_multimer+ CD38+ cells")
 
 
-plot_func(covid_data_augment, "SARS_multimer+", "CD45RA+_CCR7+", "Naive")  
+plot_func(covid_data_augment, "SARS_multimer+",
+          "CD45RA+_CCR7+",
+          "Naive")  
+
+plot_func(covid_data_augment, "SARS_multimer+", "CD38", "CD38 fraction")
 
 
 
@@ -190,7 +195,7 @@ new_func <- function(data,
     na.omit() %>%
         ggplot(mapping = aes_string(
           x = x_axis,
-          y= 'Fraction')) +
+          y= 'Fraction') +
         geom_boxplot(outlier.shape = NA,
                      fill = NA,
                      color = "gray") +
@@ -199,33 +204,63 @@ new_func <- function(data,
                      stackdir = "center",
                      fill = "red")+
     
-        stat_compare_means(
-          mapping = aes_string(
-          x = x_axis,
-          y= 'Fraction'),
-          method = "wilcox.test",
-                           test.args = list(exact = FALSE),
-                           if(x_axis=="cohort_type"){
-                             comparisons = comp_list_Cohort_type}
-                           else {comparisons = comp_list_Hospital_status},
-                           symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
-                                              symbols = c("****", "***", "**", "*", "ns")))+
+        # stat_compare_means(
+        #   mapping = aes_string(
+        #   x = x_axis,
+        #   y= 'Fraction'),
+        #   method = "wilcox.test",
+        #                    test.args = list(exact = FALSE),
+        #                    if(x_axis=="cohort_type"){
+        #                      comparisons = comp_list_Cohort_type}
+        #                    else {comparisons = comp_list_Hospital_status},
+        #                    symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
+        #                                       symbols = c("****", "***", "**", "*", "ns")))+
         theme_classic()+
        labs(title = title, 
-            subtitle = subtitle)
+            subtitle = subtitle,
+            y =)
   return(output1)
 }
 
 
 new_func(data = covid_data_augment,
-           x_axis = 'cohort_type',
+           x_axis = "Hospital_status",
            Parent_pop = "SARS_multimer+",
            Last_pop = "CD38",
            title = "test_title")
 
-#får error message: Computation failed in `stat_signif()`:
-#  missing value where TRUE/FALSE needed
-# 
-# kolla länk om där är något jag kan göra
-#
-#https://cran.r-project.org/web/packages/ggsignif/ggsignif.pdf
+
+
+
+covid_data_augment %>%
+  filter(Parent_population == "SARS_multimer+",
+         Last_population == "CD38) %>% 
+  ggplot(mapping = aes(
+    x = cohort_type,
+    y = Fraction))+
+  geom_boxplot(outlier.shape = NA,
+               fill = NA,
+               color = "gray")+
+  stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
+  geom_dotplot(binaxis = "y",
+               stackdir = "center",
+               fill = "red")+
+  stat_compare_means(method = "wilcox.test",
+                     alternative = "two.sided",
+                     paired = FALSE,
+                     conf.level = 0.95,
+                     conf.int = TRUE,
+                     na.action = na.exclude,
+                     test.args = list(exact = FALSE),
+                     comparisons = 
+                       list(c("HD-1", "HD-2"),
+                            c("HD-2", "Patient"),
+                            c("HD-1", "Patient")),
+                     symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
+                                        symbols = c("****", "***", "**", "*", "ns"))
+  )+
+  theme_classic()+
+  labs(title = Title)+
+  xlab("Cohort")+
+  ylab("% Frequency")
+
