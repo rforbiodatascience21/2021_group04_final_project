@@ -57,7 +57,7 @@ covid_data_augment %>%
 
 #Plotting a correlation plot for the cell surface markers detected in 
 #hospitalized vs outpatients
-
+#The plot is not working, difficulty in plotting points for hospitalized vs outpatient
 
 
 covid_data_augment_wide <- covid_data_augment %>% 
