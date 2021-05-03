@@ -5,6 +5,7 @@ rm(list = ls())
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
 library(ggsignif)
+library(ggpubr)
 
 
 # Define functions --------------------------------------------------------
@@ -72,7 +73,7 @@ covid_data_augment_wider_multimer %>%
   geom_signif(comparisons = list(c("HD-2", "Patient")), 
                               map_signif_level=TRUE)
 
-
+?geom_signif
 # CEFT vs Sars_cov2 
 covid_data_augment %>% 
   filter(cohort_type == "Patient",
@@ -89,6 +90,48 @@ covid_data_augment %>%
        y = "% of multimer+ CD8+ T cells",
        fill = "")+
   scale_fill_discrete(labels = c("CEF", "SARS-CoV-2"))
+
+covid_data_augment %>% 
+  filter(cohort_type == "Patient",
+         Last_population == c("CD38", "CD39", "PD-1"))
+
+covid_data_augment %>% 
+  filter(Parent_population != "CD8+",
+         cohort_type == "Patient",
+         Last_population %in% c("CD38", "CD39", "PD-1")) %>% 
+  ggplot(aes(x = Last_population,
+             y = Fraction,
+             fill = Parent_population))+
+  geom_boxplot(alpha = 0.7,
+               outlier.shape = NA)+ 
+  geom_dotplot(binaxis = "y",
+               stackdir = "center",
+               position = position_dodge(0.75)))+
+  theme_classic()+
+  theme(legend.position = "bottom")+
+  labs(x = "",
+       y = "% of multimer+ CD8+ T cells",
+       fill = "")
+  scale_fill_discrete(labels = c("CEF", "SARS-CoV-2"))
+
+
+
+covid_data_augment %>% 
+  filter(cohort_type == "Patient",
+         str_detect(Parent_population, "multimer"),
+         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
+  drop_na(Hospital_status) %>%
+  ggplot(aes(x = Last_population, 
+             y = Fraction, 
+             color = Parent_population))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_jitter(position = position_dodge(0.75),
+               dotsize = 0.25)+
+  theme_classic()+
+  theme(legend.position = "bottom")+
+  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
+       y = "% of multimer+ CD8+ T cells")
+?geom_dotplot
   
 # single plots CEF vs Sars Cov-2  
 covid_data_augment %>% 
@@ -161,8 +204,47 @@ covid_data_augment %>%
   geom_point(position = position_dodge(0.75))+
   facet_wrap(~Last_population, nrow = 1)
 
+covid_data_augment_wider_multimer %>% 
+  filter(Parent_population == "SARS_multimer+",
+         !is.na(Hospital_status)) %>% 
+  ggplot(aes(x = CD69,
+           y = `PD-1`,
+             color =  Hospital_status))+
+  geom_point()+
+  geom_smooth(method = lm)+
+  theme_classic()+
+  theme(legend.position = "bottom")
+  
 
 
+?geom_point
+# function ----------------------------------------------------------------
+plot_func <- function(data, Parent_pop, Last_pop, title){
+  require(ggpubr)
+  Title <- title
+  
+  output <- data %>%
+    filter(Parent_population == Parent_pop,
+           Last_population == Last_pop) %>% 
+    ggplot(aes(x = Last_population,
+               y = Fraction,
+               fill = cohort_type))+
+    geom_boxplot(outlier.shape = NA,
+                 color = "gray")+
+    stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
+    geom_dotplot(position = position_dodge(0.75))
+    theme_classic()+
+    labs(title = Title)+
+    xlab("Cohort")+
+    ylab("% Frequency")
+  return(output)
+}
+
+#--------RUNNING THE TEST FUNCTION--------
+plot_func(covid_data_augment,
+          "SARS_multimer+",
+          c("HLA-DR", "CD38"),
+          "Comparing SARS_multimer+ CD38+ cells")
 
 
 
