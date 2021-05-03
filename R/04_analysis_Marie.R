@@ -24,23 +24,32 @@ covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 
 # Visualise data ----------------------------------------------------------
 
+text_size = 15
+
+
 # Compare expresion of surface markers in SARS-CoV-2 mult+ CD8+ T cells in all cohorts
 covid_data_augment %>% 
   filter(Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1"),
          str_detect(Parent_population, "SARS")) %>% 
   ggplot(aes(x = cohort_type, y = Fraction, color = cohort_type))+
-  geom_boxplot()+
-  geom_jitter(alpha = 0.8)+
+  geom_boxplot(outlier.shape = NA)+
+  geom_jitter(alpha = 0.8,
+              height = 0)+
   facet_wrap(vars(Last_population),
-             scales = "free_y",
-             nrow = 1)+
-  theme_minimal()+
+             nrow = 1,
+             scales = "free_y")+
+  theme_classic(base_size = text_size)+
   theme(legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.x = element_blank())+
+        axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_rect(colour="white"))+
   labs(title = "Expression of cell surface markers",
        y = "% of SARS-CoV-2 mult+ CD8+ T cells")+
+  scale_y_continuous(limits=c(0,100),
+                     breaks=seq(0,100,20))+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
@@ -111,16 +120,27 @@ covid_data_augment %>%
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
   drop_na(Hospital_status) %>%
   ggplot(aes(x = Parent_population, y = Fraction, color = Parent_population))+
-  geom_boxplot()+
-  geom_jitter()+
+  geom_boxplot(outlier.shape = NA)+
+  geom_dotplot(binaxis = "y",
+               stackdir = "center",
+               dotsize = 0.4,
+               fill = "grey",
+               color = "grey")+
   facet_wrap(vars(Last_population),
              scales = "free_y",
-             ncol = 4)+
-  theme_classic()+
+             nrow = 1)+
+  scale_y_continuous(limits=c(0,100),
+                     breaks=seq(0,100,20))+
+  scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
+                     values = c("#d8b365", "#5ab4ac"))+
+  theme_classic(base_size = text_size)+
   theme(legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.x = element_blank())+
+        axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_rect(colour="white"))+
   labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
        y = "% of multimer+ CD8+ T cells")
 
@@ -129,3 +149,5 @@ covid_data_augment %>%
 # Write data --------------------------------------------------------------
 write_tsv(...)
 ggsave(...)
+
+
