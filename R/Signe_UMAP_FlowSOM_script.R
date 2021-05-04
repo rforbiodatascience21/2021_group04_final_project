@@ -278,6 +278,8 @@ ggplot(data_plot_umap, aes(x = UMAP_1, y = UMAP_2,colour=CD57)) +
 data_plot_umap
 
 
+#UMAP plot with different markers
+
 plot_UMAP_marker1 <- function(sampleID, marker){
   data_plot_umap %>% 
     filter(sample == sampleID) %>% 
@@ -289,10 +291,28 @@ plot_UMAP_marker1 <- function(sampleID, marker){
     scale_color_viridis_c(option = "turbo")+
     theme_bw()}
 
-plot_UMAP_marker1(sampleID = "AP0301", marker = "CD137")
+plot_UMAP_marker1(sampleID = "AP0301", marker = "PD1")
+
+data_plot_umap %>% 
+  ggplot(aes(x = UMAP_1, 
+             y = UMAP_2,
+             colour=cluster)) + 
+  geom_point(size = 0.5, alpha = 0.5) + 
+  coord_fixed(ratio = 1) + 
+  facet_wrap(.~sample) +
+  ggtitle("UMAP FlowSOM clustering") + 
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position="bottom",
+        legend.text = element_text(size=20),
+        legend.title = element_text(size=20))+
+  guides(color = guide_legend(override.aes = list(size=5)))
 
 
 
+#density plots
 
 plot_density1 <- function(marker) {
   data_plot_umap %>% 
@@ -304,8 +324,68 @@ plot_density1("CD57")
 
 
 
+#wrangling data_plot_umap
+
+data_plot_umap_long <- data_plot_umap %>% 
+  select(-c("FSC-A","FSC-H", "SSC-A", "SSC-H", "CD8","CD4", 
+            "CD3", "Live-Dead","UMAP_1", "UMAP_2")) %>% 
+  pivot_longer(cols = c("Multimer-APC":"CD57"), names_to = "target", values_to = "expr")
 
 
+data_plot_umap_sum <- data_plot_umap_long %>% 
+  group_by(cluster, target, sample) %>% 
+  summarise(mean(expr), 
+            median(expr),
+            sd(expr)) %>% 
+  mutate(mean_expr =`mean(expr)`,
+         median_expr = `median(expr)`,
+         SD_expr = `sd(expr)`) %>% 
+  select(-c("mean(expr)":"sd(expr)"))
+
+
+
+# heatmap of markers for clusters
+
+data_plot_umap_sum %>% 
+  filter(sample =="AP0301") %>% 
+  ggplot(aes(x = target,
+             y = cluster,
+             fill = mean_expr))+
+  geom_tile()+
+  scale_fill_viridis_c(option = "plasma")
+
+
+
+#exploring clusters troughout markers
+data_plot_umap_sum %>% 
+  filter(sample =="AP0301",
+         cluster %in% c(2:3)) %>% 
+  ggplot(aes(x = target,
+             y = mean_expr,
+             color = cluster,
+             group = cluster))+
+  geom_point()+
+  geom_line()+
+  theme_bw()
+
   
-  
-  
+data_plot_umap_sum %>% 
+  filter(sample =="AP0301") %>% 
+  ggplot(aes(x = cluster,
+             y = mean_expr,
+             fill = target))+
+  geom_col(position = position_dodge(0.9))
+
+
+
+#normalisation of values of markers
+
+min_expression <- data_plot_umap_long %>% 
+  group_by(cluster, target, sample) %>% 
+  summarise(min(expr)) %>% 
+  mutate(min_expr = `min(expr)`) %>% 
+  select(-`min(expr)`)
+
+data_plot_umap_long <- data_plot_umap_long %>% 
+  left_join(min_expression, by = c("cluster", "target", "sample"))
+
