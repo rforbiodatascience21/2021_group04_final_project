@@ -22,22 +22,19 @@ library(stringr)
 library(ggplot2)
 library(uwot)
 
-# load file with panel
-
-files <- list.files('data/raw/CD8_gated_files')
-
 #############################
 ### LOAD AND PREPARE DATA ###
 #############################
 # load data concatenated data from FlowJo
 
+files <- list.files('data/_raw/CD8_gated_files')
 
 
 data_FC <- data.frame()
 
 for (f in files) {
   name= str_split(f, "_")[[1]][2]
-  data_FC_sample <- flowCore::exprs(flowCore::read.FCS(filename = paste0("data/raw/CD8_gated_files/",f), 
+  data_FC_sample <- flowCore::exprs(flowCore::read.FCS(filename = paste0("data/_raw/CD8_gated_files/",f), 
                                                        transformation = FALSE, 
                                                        truncate_max_range = FALSE))
   data_FC_sample <- as.data.frame(data_FC_sample)
@@ -49,47 +46,70 @@ for (f in files) {
 #data_FC <- flowCore::exprs(flowCore::read.FCS(filename = "191210_Screen 1/191210_1_1233_A_0_0_001.fcs" ,transformation = FALSE, truncate_max_range = FALSE))
 head(data_FC)
 dim(data_FC)
+#kan dette laves til tidyverse
 class(data_FC$Time)
+
 
 
 # downsample 
 head(data_FC)
 
-flow_info <- as.data.frame(colnames(data_FC))
+flow_info <- data_FC %>%
+  colnames() %>% 
+  as.data.frame()
+
+
 flow_info <- flow_info %>% 
   mutate(Fluor = colnames(data_FC)) %>% 
   select(Fluor)
 
 
-flow_info_target <- read.xlsx("data/raw/flow_information_covid.xlsx" )
+flow_info_target <- read.xlsx("data/_raw/flow_information_covid.xlsx" )
 
 flow_info <- flow_info %>% 
   left_join(flow_info_target, by = "Fluor") %>% 
   mutate(target_new = case_when(is.na(Target)==TRUE ~ Fluor,  
-                                TRUE ~ Target ))
+                                !is.na(Target) ~ Target ))
+
+#fluor_names <- pull(flow_info, Fluor)
+target_names <- pull(flow_info, target_new)
 
 
-my_col <- setNames(flow_info$target_new,
-                   flow_info$Fluor)
+### skal laves om til tidyverse uden $
 
+#my_col <- setNames(flow_info$target_new,
+#                   flow_info$Fluor)
 
-colnames(data_FC) <- my_col[colnames(data_FC)]
+# ændre data column names
+colnames(data_FC) <- target_names
+
+  
+#colnames(data_FC) <- my_col[colnames(data_FC)]
 
 
 # only if you have many cells and its slow 
-# data_FC_downsample <- data_FC_td %>% 
+#data_FC_downsample <- data_FC %>% 
 #   group_by(name) %>% 
-#   sample_n(1000)
+#   sample_n(407)
 
-
+head(data_FC)
 # select protein marker columns to use for clustering
-#marker_cols <- c(4:6,8,10,11,14)
+marker_cols <- c(5:9,11,13,15,17:20)
 
 # apply arcsinh transformation
 # (with standard scale factor of 5 for CyTOF data; alternatively 150 for flow 
 # cytometry data; see Bendall et al. 2011, Science, Supplementary Figure S2)
 asinh_scale <- 150
+
+
+#NB selecting markers
+#data_FC <- data_FC %>% 
+#  select(marker_cols)
+
+#data_FC <- asinh(data_FC/asinh_scale)
+
 data_FC[,1:20] <- asinh(data_FC[,1:20]/asinh_scale)
+
 
 
 # create flowFrame object (required input format for FlowSOM)
@@ -105,7 +125,7 @@ set.seed(1234)
 
 # run FlowSOM (initial steps prior to meta-clustering)
 out <- FlowSOM::ReadInput(data_FlowSOM, transform = FALSE, scale = FALSE)
-out <- FlowSOM::BuildSOM(out) #, colsToUse = marker_cols
+out <- FlowSOM::BuildSOM(out, colsToUse = marker_cols)
 out <- FlowSOM::BuildMST(out)
 
 
@@ -173,11 +193,13 @@ umap_emb <- umap(data_umap)
 data_plot_umap <- as.data.frame(umap_emb)
 colnames(data_plot_umap) <- c("UMAP_1", "UMAP_2")
 head(data_plot_umap);dim(data_plot_umap)
-unique(data_plot_umap$sample)
+
 data_plot_umap[,"cluster"] <- as.factor(labels_plot)
 data_plot_umap <- cbind(data_plot_umap,as.data.frame(data_umap))
 data_plot_umap[,"sample"] <- as.factor(data_FC$name )
 
+
+unique(data_plot_umap$sample)
 head(data_plot_umap);dim(data_plot_umap)
 
 
@@ -196,6 +218,8 @@ ggplot(data_plot_umap, aes(x = UMAP_1, y = UMAP_2,colour=cluster)) +
         legend.text = element_text(size=20),
         legend.title = element_text(size=20))+
   guides(color = guide_legend(override.aes = list(size=5)))
+
+
 
 
 ggplot(data_plot_umap, aes(x = UMAP_1, y = UMAP_2,colour=CD45RA)) + 
@@ -225,6 +249,10 @@ plot_density <- function(marker) {
     geom_histogram(aes(fill = cluster), position = "identity", binwidth = 0.1, alpha = 0.5) +
     theme_bw() }
 
+
+
+
+
 data_plot_umap
 plot_density("PD1")
 plot_density("CD57")
@@ -245,4 +273,39 @@ ggplot(data_plot_umap, aes(x = UMAP_1, y = UMAP_2,colour=CD57)) +
   ggtitle("UMAP projection with FlowSOM clustering") + 
   theme_bw()
 
+# Signes gates -------
 
+data_plot_umap
+
+
+plot_UMAP_marker1 <- function(sampleID, marker){
+  data_plot_umap %>% 
+    filter(sample == sampleID) %>% 
+    ggplot(aes(x = UMAP_1,
+               y = UMAP_2,))+
+    geom_point(aes_string(color = marker),
+               size = 0.5)+
+    coord_fixed(ratio = 1)+
+    scale_color_viridis_c(option = "turbo")+
+    theme_bw()}
+
+plot_UMAP_marker1(sampleID = "AP0301", marker = "CD137")
+
+
+
+
+plot_density1 <- function(marker) {
+  data_plot_umap %>% 
+    ggplot(., aes_string(x = marker)) + 
+    geom_density(aes(color = cluster), position = "identity") +
+    theme_bw() }
+
+plot_density1("CD57")
+
+
+
+
+
+  
+  
+  
