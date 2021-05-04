@@ -24,20 +24,20 @@ library(uwot)
 
 # load file with panel
 
-files <- list.files('data/raw/CD8_gated_files')
+
 
 #############################
 ### LOAD AND PREPARE DATA ###
 #############################
 # load data concatenated data from FlowJo
 
-
+files <- list.files('data/_raw/CD8_gated_files')
 
 data_FC <- data.frame()
 
 for (f in files) {
   name= str_split(f, "_")[[1]][2]
-  data_FC_sample <- flowCore::exprs(flowCore::read.FCS(filename = paste0("data/raw/CD8_gated_files/",f), 
+  data_FC_sample <- flowCore::exprs(flowCore::read.FCS(filename = paste0("data/_raw/CD8_gated_files/",f), 
                                                        transformation = FALSE, 
                                                        truncate_max_range = FALSE))
   data_FC_sample <- as.data.frame(data_FC_sample)
@@ -61,7 +61,7 @@ flow_info <- flow_info %>%
   select(Fluor)
 
 
-flow_info_target <- read.xlsx("data/raw/flow_information_covid.xlsx" )
+flow_info_target <- read.xlsx("data/_raw/flow_information_covid.xlsx" )
 
 flow_info <- flow_info %>% 
   left_join(flow_info_target, by = "Fluor") %>% 
