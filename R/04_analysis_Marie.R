@@ -39,7 +39,8 @@ covid_data_augment %>%
              nrow = 1,
              scales = "free_y")+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(panel.spacing.y = unit(5, "lines"),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -48,16 +49,18 @@ covid_data_augment %>%
         strip.background = element_rect(colour="white"))+
   labs(title = "Expression of cell surface markers",
        y = "% of SARS-CoV-2 mult+ CD8+ T cells")+
-  scale_y_continuous(limits=c(0,100),
+  scale_y_continuous(limits=c(0,110),
                      breaks=seq(0,100,20))+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
               map_signif_level = TRUE,
-              margin_top = 0.005,
-              step_increase = 0.1,
-              vjust = 0.7,
-              textsize = 3)
+              margin_top = 0,
+              step_increase = 0.08,
+              vjust = 0.1,
+              textsize = 3,
+              tip_length = 0,
+              color = "black")
 
 
 # Compare co-expression with CD38 in all cohorts
