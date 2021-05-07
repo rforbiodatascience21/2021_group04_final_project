@@ -29,15 +29,15 @@ summary(cars)
 
 ## Data wrangling
 
-```{r, echo=TRUE}
-covid_data_augment
+```{r, code=xfun::read_utf8('R/03_augment.R')}
+
 ```
 
 
 ## Results
 
-```{r}
-plot(pressure)
+```{r, code=xfun::read_utf8('04_analysis_i.R')}
+
 ```
 
 ## Results 2
