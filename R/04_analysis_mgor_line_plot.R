@@ -3,13 +3,16 @@
 
 #---- this does a facetwrap, of selected group, however, has to figure out how to clean it from graphs which don't has CEF expression
 
+library(purrr)
+library(tidyverse)
+
+
 #FACETWRAP
+
 covid_data_augment %>% 
-  group_by(SampleID) %>% 
   filter(
     cohort_type == "Patient",
-    str_detect(Parent_population, "multimer+"),
-    is.na(Fraction) )%>%
+    str_detect(Parent_population, "multimer+"))%>%
   ggplot(
     aes(
       x = Parent_population,
@@ -20,7 +23,8 @@ covid_data_augment %>%
             color = "dimgray")+
   theme(legend.position = "none")+
   facet_wrap(vars(Last_population),
-             scales = "free_y")+
+             scales = "free_y",
+             drop = FALSE)+
   theme_classic()
 
 #--------
