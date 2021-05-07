@@ -317,7 +317,7 @@ covid_data_augment %>%
               step_increase = 0.1)
 
 # fig S8 C Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
-covid_data_augment %>% 
+fig_S8C <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "38\\+"))%>%  
   ggplot(aes(x = cohort_type, 
@@ -361,44 +361,10 @@ covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length,
               step_increase = 0.1)
-ggsave("results/fig_S8C.png")
 
-# Copy-------------------
-covid_data_augment %>% 
-  filter(cohort_type == "Patient",
-         str_detect(Parent_population, "multimer"),
-         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
-  drop_na(Hospital_status) %>%
-  ggplot(aes(x = Parent_population, y = Fraction, color = Parent_population))+
-  geom_boxplot(outlier.shape = NA,
-               width = 0.5)+
-  geom_dotplot(binaxis = "y",
-               stackdir = "center",
-               dotsize = 0.3,
-               fill = NA,
-               color = "#696969")+
-  facet_wrap(vars(Last_population),
-             scales = "free_y",
-             nrow = 1)+
-  scale_y_continuous(limits=c(0,105))+
-  scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
-                     values = c("#d8b365", "#5ab4ac"))+
-  theme_classic(base_size = 16)+
-  theme(legend.position = "bottom",
-        legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x=element_blank(),
-        panel.grid.major.y = element_line(),
-        strip.background = element_rect(colour="white"),
-        aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
-  geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
-              method = "kruskal.test",
-              map_signif_level = TRUE,
-              vjust = -0.1,
-              textsize = 3,
-              color = "black",
-              tip_length = 0)
+
+# Save plots ----------------------------------------------------------
+
+
+ggsave(plot = fig_S8C, filename = "results/fig_S8C.png", units = "mm", height = 100, width = 300, dpi= 500)
 
