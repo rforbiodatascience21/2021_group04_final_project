@@ -7,6 +7,8 @@ output: ioslides_presentation
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library("tidyverse")
+library("ggpubr")
 ```
 
 ## Introduction
@@ -23,22 +25,37 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## COVID-19 dataset
 
-```{r cars, echo = TRUE}
-summary(cars)
+```{r, message=FALSE, warning=TRUE, include=TRUE}
 ```
 
 ## Data wrangling
 
-```{r, code=xfun::read_utf8('R/03_augment.R')}
+####Code for wrangling of data is as below:
+
+```{r, echo=TRUE, results='hide'}
+covid_data_augment <- covid_data_clean %>% 
+  pivot_longer(cols = contains("lymphocytes"),
+               names_to = "Gating",
+               values_to = "Fraction") %>% 
+  mutate(T_cell = case_when(str_detect(Gating, "CD8") ~ "CD8",
+                            str_detect(Gating, "CD4") ~ "CD4"),
+         Parent_population = str_match(Gating, "\\S+\\/(\\S+)\\/\\S+$")[,2],
+         Last_population = str_match(Gating, "\\S+\\/(\\S+)$")[,2],
+         .before = Fraction)
+```
+
+```{r}
 
 ```
 
 
 ## Results
 
-```{r, code=xfun::read_utf8('04_analysis_i.R')}
-
+```{r}
+plot(![Expressioni of cell surface markers in multimer+ CD8 T-cells](results/fig_A.png))
 ```
+
+
 
 ## Results 2
 ```{r pressure}
