@@ -13,7 +13,7 @@ covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 
 # Visualise data ----------------------------------------------------------
 
-text_size <- 16
+text_size <- 14
 dot_size <- 0.3
 dot_color <- "#696969"
 
@@ -36,7 +36,7 @@ sig_tip_length <- 0
 
 # fig A Compare HD to Patient multimer+ cells expression of surface markers ----
 
-covid_data_augment %>% 
+fig_A <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
   ggplot(aes(x = cohort_type, 
@@ -85,7 +85,7 @@ covid_data_augment %>%
 
 
 # fig B Compare CEF and SARS multimer+ cells expression of surface markers -----
-covid_data_augment %>% 
+fig_B <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "multimer"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
@@ -130,7 +130,7 @@ covid_data_augment %>%
 
 # fig D Compare Outpatient vs Hospitalized multimer+ cells --------------
 
-covid_data_augment %>% 
+fig_D <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Last_population, "SARS"),
          !is.na(Hospital_status)) %>% 
@@ -171,7 +171,7 @@ covid_data_augment %>%
 
 
 # fig E Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
-covid_data_augment %>% 
+fig_E <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", 
@@ -218,7 +218,7 @@ covid_data_augment %>%
               tip_length = sig_tip_length)
 
 # fig F Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
-covid_data_augment %>% 
+fig_F <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "38\\+"),
@@ -264,9 +264,9 @@ covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
-# fig S7B Compare HD to Patient multimer+ cells differentiation----
+# fig S7B Compare HD to Patient multimer+ cells differentiation -------------
 
-covid_data_augment %>% 
+fig_S7B <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "CD45")) %>% 
   mutate(Last_population = case_when(Last_population =="CD45RA-_CCR7+" ~ "TCM",
@@ -363,8 +363,36 @@ fig_S8C <- covid_data_augment %>%
               step_increase = 0.1)
 
 
+# 
+
+covid_data_augment %>% 
+  filter(
+    cohort_type == "Patient",
+    str_detect(Parent_population, "multimer+"),
+    Last_population == "CD38") %>%
+  ggplot(aes(x = Parent_population,
+             y = Fraction))+
+  geom_point(color = "dimgray")+
+  geom_line(aes(group = SampleID),
+            color = "dimgray")+
+  theme_classic(base_size = text_size)+
+  theme(axis.text.x = element_blank()+
+        panel.grid.major.y = element_line(),
+        strip.background = element_rect(colour=NA),
+        aspect.ratio = 1)+
+  labs(title = "Expression of CD38",
+       y = "% of multimer+ CD8+ T cells")
+  
+
+
+
 # Save plots ----------------------------------------------------------
 
-
+ggsave(plot = fig_A, filename = "results/fig_A.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_B, filename = "results/fig_B.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_D, filename = "results/fig_D.png", units = "mm", height = 100, width = 200, dpi= 500)
+ggsave(plot = fig_E, filename = "results/fig_E.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_F, filename = "results/fig_F.png", units = "mm", height = 100, width = 275, dpi= 500)
+ggsave(plot = fig_S7B, filename = "results/fig_S7B.png", units = "mm", height = 100, width = 200, dpi= 500)
 ggsave(plot = fig_S8C, filename = "results/fig_S8C.png", units = "mm", height = 100, width = 300, dpi= 500)
 
