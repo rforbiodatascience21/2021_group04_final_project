@@ -5,14 +5,17 @@
 
 #FACETWRAP
 covid_data_augment %>% 
+  group_by(SampleID) %>% 
   filter(
     cohort_type == "Patient",
-    str_detect(Parent_population, "multimer+")) %>%
+    str_detect(Parent_population, "multimer+"),
+    is.na(Fraction) )%>%
   ggplot(
     aes(
       x = Parent_population,
-      y = Fraction))+
-  geom_point(color = "dimgray")+
+      y = Fraction,
+      color = Parent_population))+
+  geom_point()+
   geom_line(aes(group = SampleID),
             color = "dimgray")+
   theme(legend.position = "none")+
