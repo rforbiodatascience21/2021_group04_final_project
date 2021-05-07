@@ -118,8 +118,8 @@ fig_B <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers in CEF
-       pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
+  labs(title = "Comparison of the expression of cell surface markers in
+       CEF pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -128,7 +128,53 @@ fig_B <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length)
 
-# fig C Compare Outpatient vs Hospitalized multimer+ cells --------------
+
+#fig C line plot comparing individual marker expression between CEF and SARS multimer+ for each patient seperatly
+
+fig_C <- covid_data_augment %>% 
+  filter(
+    cohort_type == "Patient",
+    str_detect(Parent_population, "multimer+"),
+    Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1"))%>%
+  ggplot(
+    aes(
+      x = Parent_population,
+      y = Fraction,
+      color = Parent_population))+
+  geom_point()+
+  geom_line(aes(group = SampleID),
+            color = "dimgray")+
+  theme(legend.position = "none")+
+  facet_wrap(vars(Last_population),
+             scales = "free_y",
+             nrow = 1, 
+             strip.position = "bottom")+
+  scale_y_continuous(limits=c(0,115),
+                     breaks = seq(0,100, 25))+
+  scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
+                     values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
+  theme_classic(base_size = text_size)+
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.grid.major.y = element_line(),
+        strip.background = element_rect(colour=NA),
+        strip.placement = "outside",
+        aspect.ratio = 2)+
+  labs(title = "Comparison of the expression of cell surface markers in
+       CEF pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
+  geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
+              method = "kruskal.test",
+              map_signif_level = TRUE,
+              vjust = sig_vjust,
+              textsize = sig_textsize,
+              color = sig_color,
+              tip_length = sig_tip_length)
+
+
+# fig D Compare Outpatient vs Hospitalized multimer+ cells --------------
 
 fig_D <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
@@ -169,8 +215,7 @@ fig_D <- covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
-
-# fig D Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
+# fig E Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
 fig_E <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
@@ -207,8 +252,8 @@ fig_E <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers 
-       in outpatients and hospitalized COVID-19 patients.")+
+  labs(title = "Comparison of the expression of cell surface markers in
+       outpatients and hospitalized COVID-19 patients.")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -217,7 +262,7 @@ fig_E <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length)
 
-# fig E Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
+# fig F Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
 fig_F <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
@@ -387,14 +432,14 @@ covid_data_augment %>%
   
 
 
-
 # Save plots ----------------------------------------------------------
 
-ggsave(plot = fig_A, filename = "results/fig_A.png", units = "mm", height = 100, width = 300, dpi= 500)
-ggsave(plot = fig_B, filename = "results/fig_B.png", units = "mm", height = 100, width = 300, dpi= 500)
-ggsave(plot = fig_D, filename = "results/fig_D.png", units = "mm", height = 100, width = 200, dpi= 500)
-ggsave(plot = fig_E, filename = "results/fig_E.png", units = "mm", height = 100, width = 300, dpi= 500)
-ggsave(plot = fig_F, filename = "results/fig_F.png", units = "mm", height = 100, width = 275, dpi= 500)
-ggsave(plot = fig_S7B, filename = "results/fig_S7B.png", units = "mm", height = 100, width = 200, dpi= 500)
-ggsave(plot = fig_S8C, filename = "results/fig_S8C.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_A, filename = "results/04_fig_A.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_B, filename = "results/04_fig_B.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_C, filename = "results/04_fig_C.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_D, filename = "results/04_fig_D.png", units = "mm", height = 100, width = 200, dpi= 500)
+ggsave(plot = fig_E, filename = "results/04_fig_E.png", units = "mm", height = 100, width = 300, dpi= 500)
+ggsave(plot = fig_F, filename = "results/04_fig_F.png", units = "mm", height = 100, width = 275, dpi= 500)
+ggsave(plot = fig_S7B, filename = "results/04_fig_S7B.png", units = "mm", height = 100, width = 200, dpi= 500)
+ggsave(plot = fig_S8C, filename = "results/04_fig_S8C.png", units = "mm", height = 100, width = 300, dpi= 500)
 
