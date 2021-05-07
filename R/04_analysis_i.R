@@ -83,7 +83,6 @@ fig_A <- covid_data_augment %>%
               )
 
 
-
 # fig B Compare CEF and SARS multimer+ cells expression of surface markers -----
 fig_B <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
@@ -408,27 +407,6 @@ fig_S8C <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length,
               step_increase = 0.1)
-
-
-# 
-
-covid_data_augment %>% 
-  filter(
-    cohort_type == "Patient",
-    str_detect(Parent_population, "multimer+"),
-    Last_population == "CD38") %>%
-  ggplot(aes(x = Parent_population,
-             y = Fraction))+
-  geom_point(color = "dimgray")+
-  geom_line(aes(group = SampleID),
-            color = "dimgray")+
-  theme_classic(base_size = text_size)+
-  theme(axis.text.x = element_blank()+
-        panel.grid.major.y = element_line(),
-        strip.background = element_rect(colour=NA),
-        aspect.ratio = 1)+
-  labs(title = "Expression of CD38",
-       y = "% of multimer+ CD8+ T cells")
   
 
 
