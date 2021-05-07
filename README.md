@@ -1,4 +1,4 @@
-# 2021_group04_final_project
+# Group 4-Final project for course 22100 R - Readme
 
 ## Authors: 
 ##### Marcus Göransson, Marie Christine Viuff, Signe Koggersbøl Skadsborg, Susana Patricia Hernandez, Yogesh Basavaraju
