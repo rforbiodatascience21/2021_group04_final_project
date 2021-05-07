@@ -45,7 +45,7 @@ covid_data_augment <- covid_data_clean %>%
 ```
 
 ```{r}
-
+knitr::read_chunk('01_load.R')
 ```
 
 
