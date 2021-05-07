@@ -176,26 +176,19 @@ table(my_df$Hospital_status)
 
 new_func <- function(data,
          x_axis,  
-         Parent_pop, Last_pop, 
-         title){
+         Parent_pop,
+         Last_pop, 
+         Title){
+  
   require(ggpubr)
-
-  subtitle <- c(Parent_pop, Last_pop)
-  
-  comp_list_Cohort_type <- list(c("HD-1", "HD-2"),
-                                c("HD-2", "Patient"),
-                                c("HD-1", "Patient"))
-  
-  comp_list_Hospital_status <- list(c("Outpatient", "Hospitalized"))
   
   output1 <-
       data %>%
         filter(Parent_population == Parent_pop,
                Last_population == Last_pop) %>%
-    na.omit() %>%
         ggplot(mapping = aes_string(
           x = x_axis,
-          y= 'Fraction') +
+          y= "Fraction")) +
         geom_boxplot(outlier.shape = NA,
                      fill = NA,
                      color = "gray") +
@@ -203,64 +196,25 @@ new_func <- function(data,
         geom_dotplot(binaxis = "y",
                      stackdir = "center",
                      fill = "red")+
-    
-        # stat_compare_means(
-        #   mapping = aes_string(
-        #   x = x_axis,
-        #   y= 'Fraction'),
-        #   method = "wilcox.test",
-        #                    test.args = list(exact = FALSE),
-        #                    if(x_axis=="cohort_type"){
-        #                      comparisons = comp_list_Cohort_type}
-        #                    else {comparisons = comp_list_Hospital_status},
-        #                    symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1),
-        #                                       symbols = c("****", "***", "**", "*", "ns")))+
-        theme_classic()+
-       labs(title = title, 
-            subtitle = subtitle,
-            y =)
+    geom_signif(
+      comparisons = list(c("HD-1", "Patient"),
+                                   c("HD-2", "Patient")),
+                method = "kruskal.test",
+                map_signif_level = TRUE,
+                margin_top = 0.005,
+                step_increase = 0.1,
+                vjust = 0.7,
+                textsize = 3)+
+      theme_classic()+
+       labs(title = Title)
   return(output1)
 }
 
+#-------------
 
 new_func(data = covid_data_augment,
            x_axis = "Hospital_status",
            Parent_pop = "SARS_multimer+",
            Last_pop = "CD38",
-           title = "test_title")
-
-
-
-
-covid_data_augment %>%
-  filter(Parent_population == "SARS_multimer+",
-         Last_population == "CD38) %>% 
-  ggplot(mapping = aes(
-    x = cohort_type,
-    y = Fraction))+
-  geom_boxplot(outlier.shape = NA,
-               fill = NA,
-               color = "gray")+
-  stat_boxplot(geom='errorbar', linetype=1, width=0.2)+
-  geom_dotplot(binaxis = "y",
-               stackdir = "center",
-               fill = "red")+
-  stat_compare_means(method = "wilcox.test",
-                     alternative = "two.sided",
-                     paired = FALSE,
-                     conf.level = 0.95,
-                     conf.int = TRUE,
-                     na.action = na.exclude,
-                     test.args = list(exact = FALSE),
-                     comparisons = 
-                       list(c("HD-1", "HD-2"),
-                            c("HD-2", "Patient"),
-                            c("HD-1", "Patient")),
-                     symnum.args = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
-                                        symbols = c("****", "***", "**", "*", "ns"))
-  )+
-  theme_classic()+
-  labs(title = Title)+
-  xlab("Cohort")+
-  ylab("% Frequency")
+           Title = "test_title___")
 

@@ -256,6 +256,9 @@ covid_data_augment %>%
 #-----Facet wrapping line plot-----
 
 covid_data_augment %>% 
+  filter
+
+covid_data_augment %>% 
   filter(Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1"),
     cohort_type == "Patient",
     str_detect(Parent_population, "multimer+")) %>%
@@ -270,6 +273,25 @@ covid_data_augment %>%
  facet_wrap(vars(Last_population),
             scales = "free_y")+
   theme_classic()
+
+#---better version of FacetWrap
+covid_data_augment %>% 
+  filter(,
+         cohort_type == "Patient",
+         str_detect(Parent_population, "multimer+")) %>%
+  ggplot(
+    aes(
+      x = Parent_population,
+      y = Fraction))+
+  geom_point(color = "dimgray")+
+  geom_line(aes(group = SampleID),
+            color = "dimgray")+
+  theme(legend.position = "none")+
+  facet_wrap(vars(Last_population),
+             scales = "free_y")+
+  theme_classic()
+
+
 
 #---- Picking the ones we have data of-----
 
@@ -286,20 +308,4 @@ covid_data_augment %>%
   geom_line(aes(group = SampleID),
             color = "dimgray")+
   theme(legend.position = "none")
-
-CD38_line <- covid_data_augment %>% 
-  filter(
-    cohort_type == "Patient",
-    str_detect(Parent_population, "multimer+"),
-    Last_population == "CD38") %>%
-  ggplot(
-    aes(
-      x = Parent_population,
-      y = Fraction))+
-  geom_point(color = "dimgray")+
-  geom_line(aes(group = SampleID),
-            color = "dimgray")+
-  theme(legend.position = "none")
-
-CD27_line + CD38_line
   
