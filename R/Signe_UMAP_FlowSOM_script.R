@@ -30,25 +30,29 @@ library(uwot)
 files <- list.files('data/_raw/CD8_gated_files')
 
 
-data_FC <- data.frame()
+data_FC <- tibble()
+
+
 
 for (f in files) {
-  name= str_split(f, "_")[[1]][2]
+  name= str_split(f, "_")[[1]][2]# [[1]] split every single underscore and take the second [2]
   data_FC_sample <- flowCore::exprs(flowCore::read.FCS(filename = paste0("data/_raw/CD8_gated_files/",f), 
                                                        transformation = FALSE, 
                                                        truncate_max_range = FALSE))
-  data_FC_sample <- as.data.frame(data_FC_sample)
-  data_FC_sample$name <- name 
-  data_FC  <- rbind(data_FC ,data_FC_sample)
+  data_FC_sample <- data_FC_sample %>% 
+    as.tibble() %>% 
+    mutate(name = name)
+  
+  data_FC  <- data_FC %>% 
+    bind_rows(data_FC_sample)
 }
 
 
 #data_FC <- flowCore::exprs(flowCore::read.FCS(filename = "191210_Screen 1/191210_1_1233_A_0_0_001.fcs" ,transformation = FALSE, truncate_max_range = FALSE))
-head(data_FC)
-dim(data_FC)
+#head(data_FC)
+#dim(data_FC)
 #kan dette laves til tidyverse
-class(data_FC$Time)
-
+#class(data_FC$Time)
 
 
 # downsample 
@@ -80,6 +84,9 @@ target_names <- pull(flow_info, target_new)
 #my_col <- setNames(flow_info$target_new,
 #                   flow_info$Fluor)
 
+
+##rename column in tidyverse 
+
 # ændre data column names
 colnames(data_FC) <- target_names
 
@@ -108,15 +115,16 @@ asinh_scale <- 150
 
 #data_FC <- asinh(data_FC/asinh_scale)
 
-data_FC[,1:20] <- asinh(data_FC[,1:20]/asinh_scale)
+data_FC[,1:20] <- asinh(data_FC[,1:20]/asinh_scale) ## select function
 
 
 
 # create flowFrame object (required input format for FlowSOM)
 data_FlowSOM <- flowCore::flowFrame(as.matrix(data_FC[,1:20]))
-data_FC_new <- NULL
-data_FC_td <- NULL
-data_FC_sample <- NULL
+
+#data_FC_new <- NULL
+#data_FC_td <- NULL
+#data_FC_sample <- NULL
 
 
 # set seed for reproducibility
@@ -136,6 +144,8 @@ FlowSOM::PlotStars(out)
 
 #extract cluster labels (pre meta-clustering) from output object
 labels_pre <- out$map$mapping[, 1]
+
+class(out)
 
 
 # specify final number of clusters for meta-clustering (can also be selected 
@@ -218,6 +228,7 @@ ggplot(data_plot_umap, aes(x = UMAP_1, y = UMAP_2,colour=cluster)) +
         legend.text = element_text(size=20),
         legend.title = element_text(size=20))+
   guides(color = guide_legend(override.aes = list(size=5)))
+
 
 
 
@@ -310,7 +321,8 @@ data_plot_umap %>%
         legend.title = element_text(size=20))+
   guides(color = guide_legend(override.aes = list(size=5)))
 
-
+data_plot_umap %>% 
+  s
 
 #density plots
 
@@ -346,6 +358,8 @@ data_plot_umap_sum <- data_plot_umap_long %>%
 
 # heatmap of markers for clusters
 
+View(data_plot_umap_sum)
+
 data_plot_umap_sum %>% 
   filter(sample =="AP0301") %>% 
   ggplot(aes(x = target,
@@ -358,8 +372,7 @@ data_plot_umap_sum %>%
 
 #exploring clusters troughout markers
 data_plot_umap_sum %>% 
-  filter(sample =="AP0301",
-         cluster %in% c(2:3)) %>% 
+  filter(sample =="AP0301") %>% 
   ggplot(aes(x = target,
              y = mean_expr,
              color = cluster,
@@ -368,7 +381,9 @@ data_plot_umap_sum %>%
   geom_line()+
   theme_bw()
 
-  
+#Z-score
+
+
 data_plot_umap_sum %>% 
   filter(sample =="AP0301") %>% 
   ggplot(aes(x = cluster,
