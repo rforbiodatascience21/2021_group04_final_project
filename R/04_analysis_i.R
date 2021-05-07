@@ -69,8 +69,8 @@ fig_A <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
+  labs(title = "Comparison of the expression of cell surface markers in 
+       SARS-CoV-2 pMHC multimer+ CD8+ T cells in the HD and COVID-19 patient cohorts.")+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
@@ -118,8 +118,8 @@ fig_B <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
+  labs(title = "Comparison of the expression of cell surface markers in CEF
+       pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -128,7 +128,7 @@ fig_B <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length)
 
-# fig D Compare Outpatient vs Hospitalized multimer+ cells --------------
+# fig C Compare Outpatient vs Hospitalized multimer+ cells --------------
 
 fig_D <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
@@ -157,7 +157,8 @@ fig_D <- covid_data_augment %>%
         panel.grid.major.y = element_line(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 2)+
-  labs(title = "SARS-CoV-2 Multimer+ CD8 T cells",
+  labs(title = "Comparison of the frequencies of SARS-CoV-2 multimer+ 
+       CD8+ T cells in outpatient and hospitalized COVID-19 patients.",
        y = "% of CD8+ T cells")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
@@ -169,8 +170,7 @@ fig_D <- covid_data_augment %>%
 
 
 
-
-# fig E Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
+# fig D Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
 fig_E <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
@@ -207,8 +207,8 @@ fig_E <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
+  labs(title = "Comparison of the expression of cell surface markers 
+       in outpatients and hospitalized COVID-19 patients.")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -217,7 +217,7 @@ fig_E <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length)
 
-# fig F Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
+# fig E Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
 fig_F <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
@@ -253,7 +253,9 @@ fig_F <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
+  labs(title = "Comparison of co-expression of the activation marker CD38 
+       with cell marker CD39, CD69, HLA-DR+ and PD-1 in SARS-CoV-2 pMHC multimer+ 
+       CD8+ T cells in hospitalized and outpatient COVID-19 patients.",
        y = "% of multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
