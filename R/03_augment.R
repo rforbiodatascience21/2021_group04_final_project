@@ -6,10 +6,6 @@ rm(list = ls())
 library("tidyverse")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
-
 # Load data ---------------------------------------------------------------
 covid_data_clean <- read_tsv(file = "data/02_covid_data_clean.tsv")
 

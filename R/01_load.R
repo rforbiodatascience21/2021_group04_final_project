@@ -7,10 +7,6 @@ library("tidyverse")
 library("readxl")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
-
 # Load data ---------------------------------------------------------------
 covid_data_raw <- read_excel("data/_raw/covid_data.xlsx")
 
