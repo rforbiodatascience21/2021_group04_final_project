@@ -27,9 +27,16 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
+## Data wrangling
+
+```{r, echo=TRUE}
+covid_data_augment
+```
+
+
 ## Results
 
-```{r pressure}
+```{r}
 plot(pressure)
 ```
 
