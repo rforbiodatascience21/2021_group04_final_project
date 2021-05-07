@@ -7,24 +7,11 @@ library("tidyverse")
 library("ggpubr")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
-
 # Load data ---------------------------------------------------------------
 covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 
 
-# Wrangle data ------------------------------------------------------------
-my_data_clean_aug %>% ...
-
-
-# Model data
-my_data_clean_aug %>% ...
-
-
 # Visualise data ----------------------------------------------------------
-my_data_clean_aug %>% ...
 
 text_size <- 16
 dot_size <- 0.3
@@ -374,7 +361,7 @@ covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length,
               step_increase = 0.1)
-
+ggsave("results/fig_S8C.png")
 
 # Copy-------------------
 covid_data_augment %>% 
@@ -415,13 +402,3 @@ covid_data_augment %>%
               color = "black",
               tip_length = 0)
 
-
-
-
-
-#O:\Public\T-cells-and-cancer\SRH group\Group members\COVID team\Susana_FCS files
-
-
-# Write data --------------------------------------------------------------
-write_tsv(...)
-ggsave(...)
