@@ -30,19 +30,7 @@ library("readxl")
 ```{r, echo=FALSE, warning=FALSE, out.width = "600px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
 include_graphics("../images/Pipeline-1.png")
 ```
-
-
-
-
-
-
-
-* It is then proceeded to wrangling of data obtained from analysis of patient samples on the onset of Covid symptoms.
-*The wrangled data is then plotted to compare the cell surface markers between different patients to understand the changes of the immune cells during the phase of Covid.
-*Here we compare the immune profiles of patients who were hospitalized and throse who were not hospitalized with those of healthy individuals
 ---
-
-
 
 ## Introduction
 * The project utilizes data of immuno phenotyping analysis on Covid patient samples (flow cytometry data), which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-Cov2.
@@ -54,7 +42,7 @@ include_graphics("../images/Pipeline-1.png")
 
 ## Materials and methods
 
-Materials- Dataset
+Dataset
 
 - The dataset (.csv) used in the project is a rawdata extracted from .fcs file format (obtained from flowcytometry analysis)
 - Wrangling of data - Performed to clean data required for plotting
