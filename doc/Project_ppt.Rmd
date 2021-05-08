@@ -5,6 +5,7 @@ date: "11 May 2021"
 output: ioslides_presentation
 widescreen: true
 smaller: true
+incremental: true
 ---
 
 ```{r setup, include=FALSE}
@@ -42,11 +43,11 @@ include_graphics("../images/Pipeline-1.png")
 
 ## Materials and methods
 
-Dataset
+## Raw dataset
 
-- The dataset (.csv) used in the project is a rawdata extracted from .fcs file format (obtained from flowcytometry analysis)
-- Wrangling of data - Performed to clean data required for plotting
-
+* Raw data published by Saini et al., 2021 obtained from flowcytometry analysis.
+* Dataset 1: Raw data (.xlsx) extracted from .fcs files for all samples
+* Dataset 2: Raw data (.fcs) obtained from flow cytometry for 3 representative samples for UMAP analysis 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_raw <- read_excel("../data/_raw/covid_data.xlsx")
@@ -65,6 +66,7 @@ covid_data_raw
 
 ## Data wrangling 
 
+* Performed to clean and transform the data into a format which can be plotted. 
 * Remove NA
 * Add cohort names as columns using mutate
 * Consolidate the markers on sampleID using pivot longer
@@ -87,7 +89,12 @@ write_tsv(x = covid_data_clean,
           file = "../data/02_covid_data_clean.tsv")
 ```
 
-##Data- Augmenting
+## COVID-19 clean dataset
+```{r}
+covid_data_clean
+```
+## Data- Augmenting {.smaller}
+
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
 covid_data_augment <- covid_data_clean %>% 
@@ -104,7 +111,7 @@ write_tsv(x = covid_data_augment,
 ```
 
 
-##COVID-19 augmented dataset {.smaller}
+* COVID-19 augmented dataset
 ```{r}
 covid_data_augment
 ```
