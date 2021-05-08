@@ -26,10 +26,9 @@ library("readxl")
 ## Introduction
 * DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and HD using DNA-barcoded pMHC multimers combined with a T cell phenotype panel. 
 
-* The project utilizes flow cytometry data to make a T cell phenotype analysis based on the expression change of cell-surface markers in COVID-19 patients compared to healthy individuals.
-
+* The project utilizes flow cytometry data to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and HD to better understand T cell immunity to SARS-CoV-2 infection.
 ```{r, echo=FALSE, warning=FALSE, out.width = "600px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
-include_graphics("../images/Pipeline.png")
+include_graphics("../images/Pipeline-1.png")
 ```
 
 
