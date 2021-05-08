@@ -43,10 +43,14 @@ include_graphics("../images/Pipeline-1.png")
 
 ## Materials and methods
 
+# Data analysis software
+* Rstudio was used to wrangle and augment the flow cytometry raw data and to generate graphs to perform T cell phenotype analysis. 
+
+
 ## Raw dataset
 
 * Raw data published by Saini et al., 2021 obtained from flowcytometry analysis.
-* Dataset 1: Raw data (.xlsx) extracted from .fcs files for all samples
+* Dataset 1: Raw data (.xlsx) extracted from .fcs files after cell gating using FlowJo data analysis software.
 * Dataset 2: Raw data (.fcs) obtained from flow cytometry for 3 representative samples for UMAP analysis 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -61,8 +65,6 @@ covid_data <- read_tsv(file = "../data/01_covid_data.tsv")
 ```{r}
 covid_data_raw
 ```
-
-
 
 ## Data wrangling 
 
@@ -93,7 +95,10 @@ write_tsv(x = covid_data_clean,
 ```{r}
 covid_data_clean
 ```
+
 ## Data- Augmenting {.smaller}
+
+*
 
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
