@@ -5,7 +5,7 @@ date: "11 May 2021"
 output: ioslides_presentation
 widescreen: true
 smaller: true
-logo: "../doc/DTU logo.png"
+#logo: "../doc/DTU logo.png"
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +31,7 @@ library("readxl")
 - The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
 
 ```{r, echo=FALSE, warning=FALSE, out.width = "700px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
-include_graphics("../doc/Pipeline-1.png")
+#include_graphics("../doc/Pipeline-1.png")
 ```
 
 * The COVID-19 pandemic is caused by the highly infectious virus; SARS-CoV-2. 
@@ -77,34 +77,9 @@ covid_data_raw
 * Change NA values
 * Add cohort group as a new variable
 * Collapse multiple columns into two columns: Gating and Fraction
-* Splitting the gating path into two new columns: Last and parent population
+* Splitting the gating path into two new columns: Parent and Last population
 
-<<<<<<< HEAD
-=======
-* Remove NA
-* Add cohort names as columns using mutate
-* Consolidate the markers on sampleID using pivot longer
-* Splitting the gating path into two columns - Last and parent population using str_detect
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-covid_data_clean <- covid_data %>% 
-  na_if("NA") %>% 
-  mutate_if(is.numeric, round, digits=1)
-
-covid_data_clean <- covid_data %>% 
-  mutate(cohort_type = case_when( str_detect(SampleID, "Patient") ~ "Patient",
-                                  str_detect(SampleID, "HD-1") ~ "HD-1",
-                                  str_detect(SampleID, "HD-2") ~"HD-2"),
-         .after = SampleID,
-         cohort_type = factor(cohort_type, 
-                              levels = c("Patient", "HD-1", "HD-2"))
-         )
-write_tsv(x = covid_data_clean,
-          file = "../data/02_covid_data_clean.tsv")
-```
-
-## Data- Augmenting {.smaller}
->>>>>>> 69f537b56691f5a81559310fc4a09dbaf793ea64
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
 covid_data_augment <- covid_data_clean %>% 
@@ -121,16 +96,20 @@ covid_data_augment <- covid_data_clean %>%
 covid_data_augment
 ```
 
-## Creating plots
+## FCS files
+
+* .fcs files are the raw data files obtained with flow cytometry.
+* In addition to manual gating, these files can be used for clustering and visualizing the cells' expression levels of multiple parapeters in 2 dimensions with UMAP (Uniform Manifold Approximation and Projection).
+
+## Visualizing the data
+
 * Reading covid_data_augment
-* Filterrig on Parent and Last population
+* Filtering on Parent and Last population
 * Generate plot using ggplot - Boxplot and dotplot
 * Multiple plots viewed as facetwrap
 * Used geomsigif with Kruskal test
 
-## FCS files
-* .fcs files are the raw data files obtained with flow cytometry.
-* In addition to manual gating, these files can be used for clustering and visualizing the cells' expression levels of multiple parapeters in 2 dimensions with UMAP (Uniform Manifold Approximation and Projection).
+
 
 
 
@@ -169,16 +148,6 @@ include_graphics("../results/04_fig_E.png")
 ```{r fig_F, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/04_fig_F.png")
 ```
-=======
-* Used geomsignif with Kruskal test
-
-
-## Figures - S7B and S8C
-
-```{r fig_S7 , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
-include_graphics("../results/04_fig_S7B.png")
-include_graphics("../results/04_fig_S8C.png")
-```
 
 ## Figure S7 B
 
@@ -194,11 +163,12 @@ include_graphics("../results/04_fig_S8C.png")
 
 ## UMAP visualization
 
+```{r UMAP , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+# include_graphics("../results/04_fig_UMAP.png")
+```
 
 ## Conclusion
 
-
-=======
-## DISCUSSION
+* list the main results!!
 
 
