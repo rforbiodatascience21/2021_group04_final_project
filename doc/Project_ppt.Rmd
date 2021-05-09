@@ -6,6 +6,7 @@ output: ioslides_presentation
 widescreen: true
 smaller: true
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library("tidyverse")
@@ -14,44 +15,27 @@ library("knitr")
 library("readxl")
 ```
 
-## OVERVIEW
+## OVERVIEW 
 * Introduction
 * Materials - Dataset
 * Method
 * Results
 * Discussion
 
+
 ## Introduction
-* The current COVID-19 pandemia, caused by the SARS-CoV-2 virus, has caused the death of more than 3.2 million people worldwide.  
-* Studies in convalescent patients has shown a decline of antibody-mediated response a few months after infection. 
-* CD8+ T cells are critical for efficient clearance of virus-infected cells and long-term protection against SARS-CoV-2.
-* DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotype panel.
+*The project utilizes data of immuno phenotyping analysis on Covid patient samples (flow cytometry data), which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-Cov2.
+*The data used was generated at DTU Healthtech - Department of Experimental and translational immunology.
+*It is then proceeded to wrangling of data obtained from analysis of patient samples on the onset of Covid symptoms.
+*The wrangled data is then plotted to compare the cell surface markers between different patients to understand the changes of the immune cells during the phase of Covid.
+*Here we compare the immune profiles of patients who were hospitalized and throse who were not hospitalized with those of healthy individuals
 
-## Objective
-* The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
 
-```{r, echo=FALSE, warning=FALSE, out.width = "700px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
-include_graphics("../images/Pipeline-1.png")
-```
+## Materials and methods - Data
 
-## Materials and methods
+- The dataset (.csv) used in the project is a rawdata extracted from .fcs file format (obtained from flowcytometry analysis)
+- Wrangling of data - Performed to clean data required for plotting
 
-### <b>
-### Data analysis software
-### </b>
-* Rstudio software was used to tidy and transform the flow cytometry raw data and to generate graphs to perform the T cell phenotype analysis. 
-* Tidyverse package:
-
-*readxl - import spreadsheets
-
-*dplyr - manipulate data
-
-*ggplot2 - data visualization
-
-## Raw dataset
-* Raw data obtained from flowcytometry analysis.
-* Dataset 1: Raw data (.xlsx) extracted from .fcs files after cell gating using FlowJo data analysis software.
-* Dataset 2: Raw data (.fcs) obtained from flow cytometry for 3 representative samples for UMAP analysis. 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_raw <- read_excel("../data/_raw/covid_data.xlsx")
@@ -61,20 +45,21 @@ covid_data <- read_tsv(file = "../data/01_covid_data.tsv")
 ```
 
 
-## COVID-19 raw dataset - Dataset 1 {.smaller}
+## COVID-19 raw dataset {.smaller}
 ```{r}
 covid_data_raw
 ```
 
+
+
 ## Data wrangling 
 
-* Performed to transform the data into a format which can be plotted. 
 * Remove NA
 * Add cohort names as columns using mutate
 * Consolidate the markers on sampleID using pivot longer
 * Splitting the gating path into two columns - Last and parent population
 
-```{r, wrangle data, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- covid_data %>% 
   na_if("NA") %>% 
   mutate_if(is.numeric, round, digits=1)
@@ -91,12 +76,7 @@ write_tsv(x = covid_data_clean,
           file = "../data/02_covid_data_clean.tsv")
 ```
 
-## COVID-19 clean dataset
-```{r}
-covid_data_clean
-```
-
-## COVID-19 augmented dataset {.smaller}
+## Data- Augmenting {.smaller}
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
 covid_data_augment <- covid_data_clean %>% 
@@ -116,7 +96,15 @@ write_tsv(x = covid_data_augment,
 covid_data_augment
 ```
 
-## Results {.smaller}
+## Creating plots
+* Reading covid_data_augment
+* Filter on Parent and Last population
+* Generate plot using ggplot - Boxplot and dotplot
+* Multiple plots viewed as facetwrap
+* Used geomsigif with Kruskal test
+
+# Results {.smaller}
+
 ```{r, echo=FALSE, results='hide'}
 text_size <- 14
 dot_size <- 0.3
@@ -139,7 +127,7 @@ sig_tip_length <- 0
 ```
 
 
-```{r, echo=TRUE, results='hide', size='tiny'}
+```{r, echo=FALSE, results='hide', size='tiny'}
 fig_A <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
@@ -186,34 +174,21 @@ fig_A <- covid_data_augment %>%
               step_increase = 0.1
               )
 ```
----
 
-## Figure 1
-Expression of cell surface markers in SARS-CoV-2 multimer+ T cells
-```{r fig_A, fig_B, echo = FALSE, out.width = "900px", fig.align='center', out.height= "300px"}
-include_graphics("../results/fig_A.png")
-```
----
 
-## Figure 2
-Expression of cell surface markers in CEF and SARS-CoV-2 multimer+ T cells
-```{r fig_B, fig_D, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+## Results - Figures
+```{r fig_A, fig_B, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+include_graphics("../results/04_fig_A.png")
 include_graphics("../results/04_fig_B.png")
+```
+
+## Results - Figures
+```{r fig_C , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/04_fig_C.png")
 ```
----
-
 
 
 
 
 
 ## Conclusion
-
-## Introduction
-* The project utilizes data of immuno phenotyping analysis on Covid patient samples (flow cytometry data), which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-Cov2.
-* The data used was generated at DTU Healthtech - Department of Experimental and translational immunology.
-* It is then proceeded to wrangling of data obtained from analysis of patient samples on the onset of Covid symptoms.
-*The wrangled data is then plotted to compare the cell surface markers between different patients to understand the changes of the immune cells during the phase of Covid.
-*Here we compare the immune profiles of patients who were hospitalized and throse who were not hospitalized with those of healthy individuals
----
