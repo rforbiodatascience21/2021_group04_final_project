@@ -28,7 +28,7 @@ library("readxl")
 * SARS-CoV-2 virus is responsible of the current COVID-19 pandemia, causing the death of more 3.2 million people worldwide.  
 * Studies in convalescent patients has shown a decline of antibody-mediated response a few months after infection. 
 * CD8+ T cells are critical for efficient clearance of virus-infected cells and long-term protection against SARS-CoV-2.
-* DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and HD using DNA-barcoded pMHC multimers combined with a T cell phenotype panel. 
+* DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotype panel. 
 
 ## Objective
 * The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
