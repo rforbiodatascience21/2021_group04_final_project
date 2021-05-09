@@ -5,9 +5,7 @@ date: "11 May 2021"
 output: ioslides_presentation
 widescreen: true
 smaller: true
-incremental: true
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library("tidyverse")
@@ -22,16 +20,16 @@ library("readxl")
 * Method
 * Results
 * Discussion
----
 
 ## Introduction
-* SARS-CoV-2 virus is responsible of the current COVID-19 pandemia, causing the death of more 3.2 million people worldwide.  
+* The current COVID-19 pandemia, caused by the SARS-CoV-2 virus, is cause the death of more than 3.2 million people worldwide.  
 * Studies in convalescent patients has shown a decline of antibody-mediated response a few months after infection. 
 * CD8+ T cells are critical for efficient clearance of virus-infected cells and long-term protection against SARS-CoV-2.
-* DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotype panel. 
+* DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotype panel.
 
 ## Objective
 * The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
+
 ```{r, echo=FALSE, warning=FALSE, out.width = "700px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
 include_graphics("../images/Pipeline-1.png")
 ```
@@ -50,6 +48,7 @@ include_graphics("../images/Pipeline-1.png")
 
 *ggplot2 - data visualization
 
+---
 ## Raw dataset
 * Raw data obtained from flowcytometry analysis.
 * Dataset 1: Raw data (.xlsx) extracted from .fcs files after cell gating using FlowJo data analysis software.
@@ -94,14 +93,12 @@ write_tsv(x = covid_data_clean,
 ```
 
 ## COVID-19 clean dataset
+
 ```{r}
 covid_data_clean
 ```
 
-## Data Augmenting {.smaller}
-
-* Pivot_longer to 
-* Mutate
+## COVID-19 augmented dataset {.smaller}
 
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
@@ -118,8 +115,6 @@ write_tsv(x = covid_data_augment,
           file = "../data/03_covid_data_augment.tsv")
 ```
 
-
-* COVID-19 augmented dataset
 ```{r}
 covid_data_augment
 ```
@@ -197,13 +192,13 @@ fig_A <- covid_data_augment %>%
 ```
 ---
 
-# Figure 1
+## Figure 1
 ```{r fig_A, fig_B, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/fig_A.png")
 ```
 ---
 
-# Figure 2
+## Figure 2
 ```{r fig_B, fig_D, , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/fig_B.png")
 include_graphics("../results/fig_D.png")
