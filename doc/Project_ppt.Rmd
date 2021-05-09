@@ -41,7 +41,7 @@ include_graphics("../images/Pipeline-1.png")
 ### <b>
 ### Data analysis software
 ### </b>
-* Rstudio software was used to tidy and transform the flow cytometry raw data and to generate graphs to perform T cell phenotype analysis. 
+* Rstudio software was used to tidy and transform the flow cytometry raw data and to generate graphs to perform the T cell phenotype analysis. 
 * Tidyverse package:
 
 *readxl - import spreadsheets
@@ -51,9 +51,9 @@ include_graphics("../images/Pipeline-1.png")
 *ggplot2 - data visualization
 
 ## Raw dataset
-* Raw data published by Saini et al., 2021 obtained from flowcytometry analysis.
+* Raw data obtained from flowcytometry analysis.
 * Dataset 1: Raw data (.xlsx) extracted from .fcs files after cell gating using FlowJo data analysis software.
-* Dataset 2: Raw data (.fcs) obtained from flow cytometry for 3 representative samples for UMAP analysis 
+* Dataset 2: Raw data (.fcs) obtained from flow cytometry for 3 representative samples for UMAP analysis. 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_raw <- read_excel("../data/_raw/covid_data.xlsx")
