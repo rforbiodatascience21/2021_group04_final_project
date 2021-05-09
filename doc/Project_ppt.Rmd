@@ -104,7 +104,7 @@ covid_data_augment
 
 ## Creating plots
 * Reading covid_data_augment
-* Filterrig on Parent and Last population
+* Filtering on Parent and Last population
 * Generate plot using ggplot - Boxplot and dotplot
 * Multiple plots viewed as facetwrap
 * Used geomsignif with Kruskal test
@@ -135,7 +135,9 @@ include_graphics("../results/04_fig_S7B.png")
 include_graphics("../results/04_fig_S8C.png")
 ```
 
-
+Put together the following figures:
+Figure C and B. 
+Figure 
 
 ## DISCUSSION
 
