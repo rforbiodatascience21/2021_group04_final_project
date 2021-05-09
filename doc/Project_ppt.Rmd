@@ -189,20 +189,23 @@ fig_A <- covid_data_augment %>%
 ---
 
 ## Figure 1
-Comparison between CEF and SARS-CoV-2 expression markers.
+Expression of cell surface markers in SARS-CoV-2 multimer+ T cells
 
 ```{r fig_A, fig_B, echo = FALSE, out.width = "900px", fig.align='center', out.height= "300px"}
+include_graphics("../results/fig_A.png")
+
+```
+---
+
+## Figure 2
+Expression of cell surface markers in CEF and SARS-CoV-2 multimer+ T cells
+```{r fig_B, fig_D, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/04_fig_B.png")
 include_graphics("../results/04_fig_C.png")
 ```
 ---
 
-## Figure 2
-```{r fig_B, fig_D, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
-include_graphics("../results/fig_B.png")
-include_graphics("../results/fig_D.png")
-```
----
+
 
 
 
