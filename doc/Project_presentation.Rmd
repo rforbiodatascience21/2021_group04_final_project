@@ -132,7 +132,7 @@ include_graphics("../results/04_fig_C.png")
 
 ## Figure D
 
-```{r fig_D, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+```{r fig_D, echo = FALSE, out.width = "900px", out.height= "450px", fig.align='center'}
 include_graphics("../results/04_fig_D.png")
 
 ```
@@ -151,7 +151,7 @@ include_graphics("../results/04_fig_F.png")
 
 ## Figure S7 B
 
-```{r fig_S7B , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+```{r fig_S7B , echo = FALSE, out.width = "900px", out.height= "450px", fig.align='center'}
 include_graphics("../results/04_fig_S7B.png")
 ```
 
