@@ -25,22 +25,17 @@ library("readxl")
 ---
 
 ## Introduction
+* SARS-CoV-2 virus is responsible of the current COVID-19 pandemia, causing the death of more 3.2 million people worldwide.  
+* Studies in convalescent patients has shown a decline of antibody-mediated response a few months after infection. 
+* CD8+ T cells are critical for efficient clearance of virus-infected cells and long-term protection against SARS-CoV-2.
 * DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and HD using DNA-barcoded pMHC multimers combined with a T cell phenotype panel. 
 
-* The project utilizes flow cytometry data to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and HD to better understand T cell immunity to SARS-CoV-2 infection.
-```{r, echo=FALSE, warning=FALSE, out.width = "600px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
+## Objective
+* The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
+```{r, echo=FALSE, warning=FALSE, out.width = "700px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
 include_graphics("../images/Pipeline-1.png")
 ```
 ---
-
-## Introduction
-* The project utilizes data of immuno phenotyping analysis on Covid patient samples (flow cytometry data), which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-Cov2.
-* The data used was generated at DTU Healthtech - Department of Experimental and translational immunology.
-* It is then proceeded to wrangling of data obtained from analysis of patient samples on the onset of Covid symptoms.
-*The wrangled data is then plotted to compare the cell surface markers between different patients to understand the changes of the immune cells during the phase of Covid.
-*Here we compare the immune profiles of patients who were hospitalized and throse who were not hospitalized with those of healthy individuals
----
-
 ## Materials and methods
 
 ### <b>
@@ -219,3 +214,11 @@ include_graphics("../results/fig_D.png")
 
 
 ## Conclusion
+
+## Introduction
+* The project utilizes data of immuno phenotyping analysis on Covid patient samples (flow cytometry data), which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-Cov2.
+* The data used was generated at DTU Healthtech - Department of Experimental and translational immunology.
+* It is then proceeded to wrangling of data obtained from analysis of patient samples on the onset of Covid symptoms.
+*The wrangled data is then plotted to compare the cell surface markers between different patients to understand the changes of the immune cells during the phase of Covid.
+*Here we compare the immune profiles of patients who were hospitalized and throse who were not hospitalized with those of healthy individuals
+---
