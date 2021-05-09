@@ -32,16 +32,17 @@ sig_textsize <- 3
 sig_color <- "black"
 sig_tip_length <- 0
 
+# fig S7B Compare HD to Patient multimer+ cells differentiation -------------
 
-
-
-# fig A Compare HD to Patient multimer+ cells expression of surface markers ----
-
-fig_A <- covid_data_augment %>% 
+fig_S7B <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
-         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
+         str_detect(Last_population, "CD45")) %>% 
+  mutate(Last_population = case_when(Last_population =="CD45RA-_CCR7+" ~ "TCM",
+                                     Last_population =="CD45RA+_CCR7+" ~ "Naïve",
+                                     Last_population =="CD45RA+_CCR7-" ~ "TEMRA",
+                                     Last_population =="CD45RA-_CCR7-" ~ "TEM")) %>% 
   ggplot(aes(x = cohort_type, 
-             y = Fraction, 
+             y = "% of multimer+ CD8+ T cells", 
              color = cohort_type))+
   geom_boxplot(outlier.shape = NA,
                width = boxplot_width)+
@@ -71,7 +72,57 @@ fig_A <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in SARS-CoV-2 specific CD8+ T cells")+
+  labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8 T cells",
+       subtitle = "Based on expression of CD45RA and CCR7",
+       y = "% of multimer+ CD8+ T cells")+
+  geom_signif(comparisons = list(c("HD-1", "Patient"),
+                                 c("HD-2", "Patient")),
+              method = "kruskal.test",
+              map_signif_level = TRUE,
+              vjust = sig_vjust,
+              textsize = sig_textsize,
+              color = sig_color,
+              tip_length = sig_tip_length, 
+              step_increase = 0.1)
+
+
+# fig A Compare HD to Patient multimer+ cells expression of surface markers ----
+
+fig_A <- covid_data_augment %>% 
+  filter(str_detect(Parent_population, "SARS"),
+         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
+  ggplot(aes(x = cohort_type, 
+             y = "% of multimer+ CD8+ T cells", 
+             color = cohort_type))+
+  geom_boxplot(outlier.shape = NA,
+               width = boxplot_width)+
+  geom_dotplot(binaxis = "y",
+               stackdir = "center",
+               dotsize = dot_size,
+               fill = NA,
+               color = dot_color)+
+  facet_wrap(vars(Last_population),
+             scales = "free_y",
+             nrow = 1, 
+             strip.position = "bottom")+
+  scale_y_continuous(limit = c(0,115),
+                     breaks = seq(0,100, 25))+
+  scale_color_manual(labels = c("HD1", "HD2", "Patient"),
+                     values = c(boxplot_color_SARS_HD1,
+                                boxplot_color_SARS_HD2,
+                                boxplot_color_SARS_pt))+
+  theme_classic(base_size = text_size)+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.grid.major.y = element_line(),
+        strip.background = element_rect(colour=NA),
+        strip.placement = "outside",
+        aspect.ratio = 2)+
+  labs(title = "Expression of cell surface markers in COVID-19 patients and HD")+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
@@ -91,7 +142,7 @@ fig_B <- covid_data_augment %>%
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
   drop_na(Hospital_status) %>%
   ggplot(aes(x = Parent_population, 
-             y = Fraction, 
+             y = "% of multimer+ CD8+ T cells", 
              color = Parent_population))+
   geom_boxplot(outlier.shape = NA,
                width = boxplot_width)+
@@ -119,7 +170,7 @@ fig_B <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8+ T cells")+
+  labs(title = "Expression of cell surface markers in COVID-19 patient")+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -309,59 +360,6 @@ fig_F <- covid_data_augment %>%
               color = sig_color,
               tip_length = sig_tip_length)
 
-
-# fig S7B Compare HD to Patient multimer+ cells differentiation -------------
-
-fig_S7B <- covid_data_augment %>% 
-  filter(str_detect(Parent_population, "SARS"),
-         str_detect(Last_population, "CD45")) %>% 
-  mutate(Last_population = case_when(Last_population =="CD45RA-_CCR7+" ~ "TCM",
-                                     Last_population =="CD45RA+_CCR7+" ~ "Naïve",
-                                     Last_population =="CD45RA+_CCR7-" ~ "TEMRA",
-                                     Last_population =="CD45RA-_CCR7-" ~ "TEM")) %>% 
-  ggplot(aes(x = cohort_type, 
-             y = Fraction, 
-             color = cohort_type))+
-  geom_boxplot(outlier.shape = NA,
-               width = boxplot_width)+
-  geom_dotplot(binaxis = "y",
-               stackdir = "center",
-               dotsize = dot_size,
-               fill = NA,
-               color = dot_color)+
-  facet_wrap(vars(Last_population),
-             scales = "free_y",
-             nrow = 1, 
-             strip.position = "bottom")+
-  scale_y_continuous(limit = c(0,115),
-                     breaks = seq(0,100, 25))+
-  scale_color_manual(labels = c("HD1", "HD2", "Patient"),
-                     values = c(boxplot_color_SARS_HD1,
-                                boxplot_color_SARS_HD2,
-                                boxplot_color_SARS_pt))+
-  theme_classic(base_size = text_size)+
-  theme(plot.title = element_text(hjust = 0.5),
-        legend.position = "bottom",
-        legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x=element_blank(),
-        panel.grid.major.y = element_line(),
-        strip.background = element_rect(colour=NA),
-        strip.placement = "outside",
-        aspect.ratio = 2)+
-  labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8 T cells",
-       subtitle = "Based on expression of CD45RA and CCR7",
-       y = "% of multimer+ CD8+ T cells")+
-  geom_signif(comparisons = list(c("HD-1", "Patient"),
-                                 c("HD-2", "Patient")),
-              method = "kruskal.test",
-              map_signif_level = TRUE,
-              vjust = sig_vjust,
-              textsize = sig_textsize,
-              color = sig_color,
-              tip_length = sig_tip_length, 
-              step_increase = 0.1)
 
 # fig S8 C Compare HD to Patients co-expresion of activation markers on SARS-CoV-2 specific T cells --------------
 fig_S8C <- covid_data_augment %>% 
