@@ -15,7 +15,7 @@ covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 # Visualise data ----------------------------------------------------------
 
 text_size <- 14
-dot_size <- 0.3
+dot_size <- 0.5
 dot_color <- "#696969"
 
 boxplot_width <- 0.5
@@ -61,7 +61,8 @@ fig_A <- covid_data_augment %>%
                                 boxplot_color_SARS_HD2,
                                 boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -70,8 +71,7 @@ fig_A <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers in 
-       SARS-CoV-2 pMHC multimer+ CD8+ T cells in the HD and COVID-19 patient cohorts.")+
+  labs(title = "Expression of cell surface markers in SARS-CoV-2 specific CD8+ T cells")+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
@@ -109,7 +109,8 @@ fig_B <- covid_data_augment %>%
   scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
                      values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -118,8 +119,7 @@ fig_B <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers in
-       CEF pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
+  labs(title = "Expression of cell surface markers in multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -154,7 +154,8 @@ fig_C <- covid_data_augment %>%
   scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
                      values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -163,8 +164,7 @@ fig_C <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers in
-       CEF pMHC multimer+  and SARS CoV-2 pMHC multimer+ CD8+ T cells in the COVID-19 patient cohort")+
+  labs(title = "Expression of cell surface markers in multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -195,7 +195,8 @@ fig_D <- covid_data_augment %>%
   scale_color_manual(values = c(boxplot_color_SARS_Outpt,
                                 boxplot_color_SARS_Hosp))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -203,8 +204,7 @@ fig_D <- covid_data_augment %>%
         panel.grid.major.y = element_line(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 2)+
-  labs(title = "Comparison of the frequencies of SARS-CoV-2 multimer+ 
-       CD8+ T cells in outpatient and hospitalized COVID-19 patients.",
+  labs(title = "SARS-CoV-2 specific CD8+ T cells",
        y = "% of CD8+ T cells")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
@@ -243,7 +243,8 @@ fig_E <- covid_data_augment %>%
   scale_color_manual(values = c(boxplot_color_SARS_Outpt,
                                 boxplot_color_SARS_Hosp))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -252,8 +253,7 @@ fig_E <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of the expression of cell surface markers in
-       outpatients and hospitalized COVID-19 patients.")+
+  labs(title = "Expression of cell surface markers COVID-19 patients")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -289,7 +289,8 @@ fig_F <- covid_data_augment %>%
   scale_color_manual(values = c(boxplot_color_SARS_Outpt,
                                 boxplot_color_SARS_Hosp))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -298,9 +299,7 @@ fig_F <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Comparison of co-expression of the activation marker CD38 
-       with cell marker CD39, CD69, HLA-DR+ and PD-1 in SARS-CoV-2 pMHC multimer+ 
-       CD8+ T cells in hospitalized and outpatient COVID-19 patients.",
+  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells in COVID-19 patients",
        y = "% of multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
@@ -341,7 +340,8 @@ fig_S7B <- covid_data_augment %>%
                                 boxplot_color_SARS_HD2,
                                 boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -350,8 +350,8 @@ fig_S7B <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Differentiation subsets in multimer+ CD8 T cells",
-       subtitle = "based on expression of CD45RA and CCR7",
+  labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8 T cells",
+       subtitle = "Based on expression of CD45RA and CCR7",
        y = "% of multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
@@ -363,7 +363,7 @@ fig_S7B <- covid_data_augment %>%
               tip_length = sig_tip_length, 
               step_increase = 0.1)
 
-# fig S8 C Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
+# fig S8 C Compare HD to Patients co-expresion of activation markers on SARS-CoV-2 specific T cells --------------
 fig_S8C <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "38\\+"))%>%  
@@ -383,12 +383,14 @@ fig_S8C <- covid_data_augment %>%
              strip.position = "bottom")+
   scale_y_continuous(limits=c(0,115),
                      breaks = seq(0,100, 25))+
+  scale_x_discrete(labels = c("CD38+ CD39+", "CD38+ CD69+","CD38+ HLA-DR+","CD38+ PD-1+"))+
   scale_color_manual(labels = c("HD1", "HD2", "Patient"),
                      values = c(boxplot_color_SARS_HD1,
                                 boxplot_color_SARS_HD2,
                                 boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
-  theme(legend.position = "bottom",
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -397,8 +399,7 @@ fig_S8C <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 1)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
+  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells")
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
