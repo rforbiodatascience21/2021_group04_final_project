@@ -31,7 +31,7 @@ library("readxl")
 - The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
 
 ```{r, echo=FALSE, warning=FALSE, out.width = "700px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
-#include_graphics("../doc/Pipeline-1.png")
+include_graphics("../doc/Pipeline-1.png")
 ```
 
 * The COVID-19 pandemic is caused by the highly infectious virus; SARS-CoV-2. 
