@@ -47,7 +47,7 @@ fcs_covid_data <- fcs_covid_files %>%
 
 fcs_covid_data <- fcs_covid_data %>% 
   group_by(name) %>% 
-  sample_n(2000)
+  sample_n(1000)
 
 
 
