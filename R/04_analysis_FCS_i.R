@@ -39,7 +39,7 @@ fcs_covid_data_umap_long <- fcs_covid_data_umap %>%
 
 # Visualise data ----------------------------------------------------------
 
-
+point_size <- 0.3
 
 
 # density UMAP plot
@@ -59,7 +59,8 @@ fig_density_patient <- fcs_covid_data_umap %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
-        aspect.ratio = 1)
+        aspect.ratio = 1)+
+  labs(title = "Patient")
 
 
 
@@ -69,7 +70,6 @@ fig_density_HD <- fcs_covid_data_umap %>%
   ggplot(aes(x = UMAP_1, y = UMAP_2)) + 
   geom_hex(bins = 70)+
   coord_fixed(ratio = 1) +
-  facet_wrap(~Sample)+
   theme_classic()+
   scale_fill_gradient2( mid = "yellow", high = "red")+
   theme_classic()+
@@ -79,7 +79,8 @@ fig_density_HD <- fcs_covid_data_umap %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
-        aspect.ratio = 1)
+        aspect.ratio = 1)+
+  labs(title = "HD")
 
 
 # Expression for every each marker
@@ -94,7 +95,7 @@ fig_all_patient <- fcs_covid_data_umap_long %>%
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
              color = expression))+
-  geom_point(size = 0.3)+
+  geom_point(size = point_size)+
   facet_wrap(~ marker, 
              scales = "free")+
   scale_color_viridis_c(option = "turbo")+
@@ -119,7 +120,7 @@ fig_all_HD <- fcs_covid_data_umap_long %>%
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
              color = expression))+
-  geom_point(size = 0.3)+
+  geom_point(size = point_size)+
   facet_wrap(~ marker, 
              scales = "free")+
   scale_color_viridis_c(option = "turbo")+
@@ -138,7 +139,7 @@ fig_all_HD <- fcs_covid_data_umap_long %>%
 
 fig_single_CD45RA <- fcs_covid_data_umap %>%  
   ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CD45RA)) + 
-  geom_point(size = 0.3) + 
+  geom_point(size = point_size) + 
   facet_wrap(~Sample,
              scales = "free")+
   theme_classic()+
@@ -157,7 +158,7 @@ fig_single_CD45RA <- fcs_covid_data_umap %>%
 
 fig_single_CCR7 <- fcs_covid_data_umap %>%  
   ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CCR7)) + 
-  geom_point(size = 0.3) +
+  geom_point(size = point_size) +
   facet_wrap(~Sample,
              scales = "free")+
   theme_classic()+
@@ -176,7 +177,7 @@ fig_single_CCR7 <- fcs_covid_data_umap %>%
 
 fig_single_PD1 <- fcs_covid_data_umap %>%  
   ggplot(aes(x = UMAP_1, y = UMAP_2,colour=PD1)) + 
-  geom_point(size = 0.3) +
+  geom_point(size = point_size) +
   facet_wrap(~Sample,
              scales = "free")+
   theme_classic()+
@@ -195,7 +196,7 @@ fig_single_PD1 <- fcs_covid_data_umap %>%
 
 fig_single_CD69 <- fcs_covid_data_umap %>%  
   ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CD69)) + 
-  geom_point(size = 0.3) + 
+  geom_point(size = point_size) + 
   facet_wrap(~Sample,
              scales = "free")+
   theme_classic()+
