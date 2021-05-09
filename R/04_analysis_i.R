@@ -299,7 +299,7 @@ fig_F <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 2)+
-  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells",
+  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells in COVID-19 patients",
        y = "% of multimer+ CD8+ T cells")+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
@@ -399,8 +399,7 @@ fig_S8C <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 1)+
-  labs(title = "Expression of cell surface markers in multimer+ CD8 T cells",
-       y = "% of multimer+ CD8+ T cells")+
+  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells"
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
