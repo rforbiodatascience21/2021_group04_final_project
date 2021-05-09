@@ -5,6 +5,9 @@ rm(list = ls())
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
 
+# Define functions --------------------------------------------------------
+source(file = "R/99_project_functions.R")
+
 
 # Load data ---------------------------------------------------------------
 fcs_covid_data_clean <- read_tsv(file = "data/02_fcs_covid_data_clean.tsv")
@@ -27,14 +30,6 @@ target_names <- flow_info %>%
 
 colnames(fcs_covid_data_clean) <- target_names
 
-
-
-# should probaly be placed in function script
-asinh_scale <- 150
-
-scale_function <- function(x){
-  asinh(x/asinh_scale)
-}
 
 fcs_covid_data_aug <- fcs_covid_data_clean %>% 
   mutate_at(vars(1:20),scale_function)
