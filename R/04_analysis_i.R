@@ -76,6 +76,7 @@ fig_A <- covid_data_augment %>%
   labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8+ T cells",
        subtitle = "-Based on expression of CD45RA and CCR7",
        y = "% of multimer+ CD8+ T cells")+
+  theme(axis.title = element_text(size = 12))+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
@@ -223,6 +224,7 @@ fig_D <- covid_data_augment %>%
         aspect.ratio = 2)+
   labs(title = "Expression of cell surface markers in COVID-19 patient",
        y="% of multimer+ CD8+ T cells")+
+  theme(axis.title = element_text(size = 9))+
   geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
               method = "kruskal.test",
               map_signif_level = TRUE,
@@ -359,6 +361,7 @@ fig_G <- covid_data_augment %>%
         aspect.ratio = 2)+
   labs(title = "Expression of cell surface markers COVID-19 patients",
        y="% of multimer+ CD8+ T cells")+
+  theme(axis.title = element_text(size = 9))+
   geom_signif(comparisons = list(c("Outpatient", "Hospitalized")),
               method = "kruskal.test",
               map_signif_level = TRUE,
