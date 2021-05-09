@@ -190,10 +190,8 @@ fig_A <- covid_data_augment %>%
 
 ## Figure 1
 Expression of cell surface markers in SARS-CoV-2 multimer+ T cells
-
 ```{r fig_A, fig_B, echo = FALSE, out.width = "900px", fig.align='center', out.height= "300px"}
 include_graphics("../results/fig_A.png")
-
 ```
 ---
 
