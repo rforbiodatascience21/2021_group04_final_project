@@ -399,7 +399,7 @@ fig_S8C <- covid_data_augment %>%
         strip.background = element_rect(colour=NA),
         strip.placement = "outside",
         aspect.ratio = 1)+
-  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells"
+  labs(title = "Co-expression of CD38 and activation markers in SARS-CoV-2 specific CD8+ T cells")
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
               method = "kruskal.test",
