@@ -3,10 +3,7 @@ rm(list = ls())
 
 
 # Load libraries ----------------------------------------------------------
-#library(flowCore)
-library(readxl)
 library(tidyverse)
-#library(uwot)
 
 
 

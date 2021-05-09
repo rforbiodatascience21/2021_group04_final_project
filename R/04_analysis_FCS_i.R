@@ -35,12 +35,13 @@ fcs_covid_data_umap <-  bind_cols(fcs_covid_data_umap, fcs_covid_data_aug)
 fcs_covid_data_umap_long <- fcs_covid_data_umap %>% 
   pivot_longer(cols = c(7:22), 
                names_to = "marker", 
-               values_to = "expression")
+               values_to = "Expression")
 
 # Visualise data ----------------------------------------------------------
 
 point_size <- 0.3
 
+font_size <- 14
 
 # density UMAP plot
 
@@ -50,17 +51,16 @@ fig_density_patient <- fcs_covid_data_umap %>%
   ggplot(aes(x = UMAP_1, y = UMAP_2)) + 
   geom_hex(bins = 70)+
   coord_fixed(ratio = 1) +
-  theme_classic()+
+  theme_classic(base_size = font_size)+
   scale_fill_gradient2( mid = "yellow", high = "red")+
-  theme_classic()+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme_classic(base_size = font_size)+
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "Patient")
+  labs(title = "UMAP density plot for a SARS-CoV-2 Patient")
 
 
 
@@ -70,17 +70,16 @@ fig_density_HD <- fcs_covid_data_umap %>%
   ggplot(aes(x = UMAP_1, y = UMAP_2)) + 
   geom_hex(bins = 70)+
   coord_fixed(ratio = 1) +
-  theme_classic()+
+  theme_classic(base_size = font_size)+
   scale_fill_gradient2( mid = "yellow", high = "red")+
-  theme_classic()+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme_classic(base_size = font_size)+
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "HD")
+  labs(title = "UMAP density plot for a Healthy Donor")
 
 
 # Expression for every each marker
@@ -94,19 +93,20 @@ fig_all_patient <- fcs_covid_data_umap_long %>%
                        "HLA-DR", "PD1","CD27","Multimer-PE")) %>% 
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
-             color = expression))+
+             color = Expression))+
   geom_point(size = point_size)+
   facet_wrap(~ marker, 
              scales = "free")+
   scale_color_viridis_c(option = "turbo")+
-  theme_classic()+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme_classic(base_size = font_size)+
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
-        aspect.ratio = 1)
+        aspect.ratio = 1)+
+  labs(title = "UMAP plot of SARS-CoV-2 patient",
+       subtitle = "expression of biomarkers")
   
 
 
@@ -119,96 +119,107 @@ fig_all_HD <- fcs_covid_data_umap_long %>%
                        "HLA-DR", "PD1","CD27","Multimer-PE")) %>% 
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
-             color = expression))+
+             color = Expression))+
   geom_point(size = point_size)+
   facet_wrap(~ marker, 
              scales = "free")+
   scale_color_viridis_c(option = "turbo")+
-  theme_classic()+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x=element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.background = element_rect(colour=NA),
-        aspect.ratio = 1)
-
-# expression level for sigle markers
-
-## CD45RA
-
-fig_single_CD45RA <- fcs_covid_data_umap %>%  
-  ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CD45RA)) + 
-  geom_point(size = point_size) + 
-  facet_wrap(~Sample,
-             scales = "free")+
-  theme_classic()+
-  scale_color_viridis_c(option = "turbo") +
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme_classic(base_size = font_size)+
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "CD45RA")
+  labs(title = "UMAP plot of healthy donor",
+       subtitle = "expression of biomarkers")
+
+# expression level for sigle markers
+
+
+
+## CD45RA
+
+fig_single_CD45RA <- fcs_covid_data_umap %>%
+  mutate(Sample = recode(Sample, "AP0301" = "Patient",
+                         "BC10" = "Healthy Donor")) %>% 
+  ggplot(aes(x = UMAP_1, y = UMAP_2,color=CD45RA)) + 
+  geom_point(size = point_size) + 
+  facet_wrap(~Sample,
+             scales = "free")+
+  theme_classic(base_size = font_size)+
+  scale_color_viridis_c(option = "turbo") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.background = element_rect(colour=NA),
+        aspect.ratio = 1)+
+  labs(title = "UMAP plot - CD45RA expression",
+       color = "Expression")
 
 
 ## CCR7
 
-fig_single_CCR7 <- fcs_covid_data_umap %>%  
-  ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CCR7)) + 
+fig_single_CCR7 <- fcs_covid_data_umap %>% 
+  mutate(Sample = recode(Sample, "AP0301" = "Patient",
+                         "BC10" = "Healthy Donor")) %>% 
+  ggplot(aes(x = UMAP_1, y = UMAP_2,color=CCR7)) + 
   geom_point(size = point_size) +
   facet_wrap(~Sample,
              scales = "free")+
-  theme_classic()+
+  theme_classic(base_size = font_size)+
   scale_color_viridis_c(option = "turbo")+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "CCR7")
+  labs(title = "UMAP plot - CCR7 expression",
+       color = "Expression")
 
 
 ## PD1
 
-fig_single_PD1 <- fcs_covid_data_umap %>%  
-  ggplot(aes(x = UMAP_1, y = UMAP_2,colour=PD1)) + 
+fig_single_PD1 <- fcs_covid_data_umap %>% 
+  mutate(Sample = recode(Sample, "AP0301" = "Patient",
+                         "BC10" = "Healthy Donor")) %>% 
+  ggplot(aes(x = UMAP_1, y = UMAP_2,color=PD1)) + 
   geom_point(size = point_size) +
   facet_wrap(~Sample,
              scales = "free")+
-  theme_classic()+
+  theme_classic(base_size = font_size)+
   scale_color_viridis_c(option = "turbo")+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "PD1")
+  labs(title = "UMAP plot - PD1 expression",
+       color = "Expression")
 
 
 ## CD69
 
-fig_single_CD69 <- fcs_covid_data_umap %>%  
+fig_single_CD69 <- fcs_covid_data_umap %>% 
+  mutate(Sample = recode(Sample, "AP0301" = "Patient",
+                         "BC10" = "Healthy Donor")) %>% 
   ggplot(aes(x = UMAP_1, y = UMAP_2,colour=CD69)) + 
   geom_point(size = point_size) + 
   facet_wrap(~Sample,
              scales = "free")+
-  theme_classic()+
+  theme_classic(base_size = font_size)+
   scale_color_viridis_c(option = "turbo")+
-  theme(legend.title = element_blank(),
-        axis.text.x = element_blank(),
+  theme(axis.text.x = element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
         aspect.ratio = 1)+
-  labs(title = "CD69")
+  labs(title = "UMAP plot - CD69 expression",
+       color = "Expression")
 
 
 

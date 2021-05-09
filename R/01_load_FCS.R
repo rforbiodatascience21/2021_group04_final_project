@@ -17,7 +17,6 @@ rm(list = ls())
 library(flowCore)
 library(readxl)
 library(tidyverse)
-#library(uwot)
 
 # Load data ---------------------------------------------------------------
 fcs_covid_files <- list.files(path = "data/_raw/CD8_gated_files/", 
@@ -47,7 +46,7 @@ fcs_covid_data <- fcs_covid_files %>%
 
 fcs_covid_data <- fcs_covid_data %>% 
   group_by(name) %>% 
-  sample_n(1000)
+  sample_n(2000)
 
 
 
