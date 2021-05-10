@@ -79,7 +79,6 @@ covid_data_raw
 * Collapse multiple columns into two columns: Gating and Fraction
 * Splitting the gating path into two new columns: Parent and Last population
 
-
 ```{r, augment, echo=FALSE, warning=FALSE, message=FALSE}
 covid_data_clean <- read_tsv(file = "../data/02_covid_data_clean.tsv")
 covid_data_augment <- covid_data_clean %>% 
@@ -107,7 +106,9 @@ Pipeline
 * Tidying the data set by renaming the samples and variables
 * Scale transformation
 * Calculate UMAP coordinates (uwot)
-
+```{r Bioclogo , echo = FALSE, out.width = "100px", fig.align='right'}
+include_graphics("../doc/Bioconductor logo.png")
+```
 
 ## Visualizing the data
 
@@ -115,6 +116,10 @@ Pipeline
 * Generate plot using ggplot - Boxplot, dotplot, hexplot (2d density plot)
 * Multiple plots generated for different surface markers
 * Statistical test was added to the visualization
+```{r Tidylogo , echo = FALSE, out.width = "200px", fig.align='right'}
+include_graphics("../doc/tidyverse_logo.png")
+```
+
 
 
 
