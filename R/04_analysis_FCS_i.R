@@ -32,6 +32,8 @@ fcs_covid_data_umap <-  bind_cols(fcs_covid_data_umap, fcs_covid_data_aug)
 
 
 
+# Wrangle data for ggplot -------------------------------------------------
+
 fcs_covid_data_umap_long <- fcs_covid_data_umap %>% 
   pivot_longer(cols = c(7:22), 
                names_to = "marker", 
@@ -89,8 +91,8 @@ fig_density_HD <- fcs_covid_data_umap %>%
 fig_all_patient <- fcs_covid_data_umap_long %>% 
   filter(Sample != "BC10",
          marker %in% c("CCR7", "CD137", "CD27", "CD38", "CD39", 
-                       "CD45RA", "CD57", "CD69", "Multimer-APC",
-                       "HLA-DR", "PD1","CD27","Multimer-PE")) %>% 
+                       "CD45RA", "CD57", "CD69", "CEF Multimer",
+                       "HLA-DR", "PD1","CD27","SARS-CoV-2 Multimer")) %>% 
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
              color = Expression))+
@@ -115,8 +117,8 @@ fig_all_patient <- fcs_covid_data_umap_long %>%
 fig_all_HD <- fcs_covid_data_umap_long %>% 
   filter(Sample == "BC10",
          marker %in% c("CCR7", "CD137", "CD27", "CD38", "CD39", 
-                       "CD45RA", "CD57", "CD69", "Multimer-APC",
-                       "HLA-DR", "PD1","CD27","Multimer-PE")) %>% 
+                       "CD45RA", "CD57", "CD69", "CEF Multimer",
+                       "HLA-DR", "PD1","CD27","SARS-CoV-2 Multimer")) %>% 
   ggplot(aes(x = UMAP_1, 
              y = UMAP_2,
              color = Expression))+

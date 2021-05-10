@@ -35,6 +35,7 @@ fcs_covid_data_aug <- fcs_covid_data_clean %>%
   mutate_at(vars(1:20),scale_function)
 
 
+
 # Write data --------------------------------------------------------------
 write_tsv(x = fcs_covid_data_aug,
           file = "data/03_fcs_covid_data_aug.tsv")
