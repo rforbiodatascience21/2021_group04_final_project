@@ -76,7 +76,7 @@ fig_A <- covid_data_augment %>%
   labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8+ T cells",
        subtitle = "-Based on expression of CD45RA and CCR7",
        y = "% of multimer+ CD8+ T cells",
-       caption = "P-values for one-way ANOVA (Krustal-Wallist Test)")+
+       caption = "Note: P-values for one-way ANOVA (Kruskal-Wallis Test)")+
   theme(axis.title = element_text(size = 12))+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
@@ -188,56 +188,9 @@ fig_C <- covid_data_augment %>%
               step_increase = 0.1)
 
 
-# fig D Compare CEF and SARS multimer+ cells expression of surface markers -----
+#fig D line plot comparing individual marker expression between CEF and SARS multimer+ for each patient seperatly
+
 fig_D <- covid_data_augment %>% 
-  filter(cohort_type == "Patient",
-         str_detect(Parent_population, "multimer"),
-         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
-  drop_na(Hospital_status) %>%
-  ggplot(aes(x = Parent_population, 
-             y = Fraction, 
-             color = Parent_population))+
-  geom_boxplot(outlier.shape = NA,
-               width = boxplot_width)+
-  geom_dotplot(binaxis = "y",
-               stackdir = "center",
-               dotsize = dot_size,
-               fill = NA,
-               color = dot_color)+
-  facet_wrap(vars(Last_population),
-             scales = "free_y",
-             nrow = 1, 
-             strip.position = "bottom")+
-  scale_y_continuous(limits=c(0,115),
-                     breaks = seq(0,100, 25))+
-  scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
-                     values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
-  theme_classic(base_size = text_size)+
-  theme(plot.title = element_text(hjust = 0.5),
-        legend.position = "right",
-        legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x=element_blank(),
-        panel.grid.major.y = element_line(),
-        strip.background = element_rect(colour=NA),
-        strip.placement = "outside",
-        aspect.ratio = 2)+
-  labs(title = "Expression of cell surface markers in COVID-19 patient",
-       y="% of multimer+ CD8+ T cells")+
-  theme(axis.title = element_text(size = 9))+
-  geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
-              method = "kruskal.test",
-              map_signif_level = TRUE,
-              vjust = sig_vjust,
-              textsize = sig_textsize,
-              color = sig_color,
-              tip_length = sig_tip_length)
-
-
-#fig E line plot comparing individual marker expression between CEF and SARS multimer+ for each patient seperatly
-
-fig_E <- covid_data_augment %>% 
   filter(
     cohort_type == "Patient",
     str_detect(Parent_population, "multimer+"),
@@ -281,9 +234,9 @@ fig_E <- covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
-# fig F Compare Outpatient vs Hospitalized multimer+ cells --------------
+# fig E Compare Outpatient vs Hospitalized multimer+ cells --------------
 
-fig_F <- covid_data_augment %>% 
+fig_E <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Last_population, "SARS"),
          !is.na(Hospital_status)) %>% 
@@ -322,8 +275,8 @@ fig_F <- covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
-# fig G Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
-fig_G <- covid_data_augment %>% 
+# fig F Compare Outpatient vs Hospitalized multimer+ cells expression of markers--------------
+fig_F <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", 
@@ -372,8 +325,8 @@ fig_G <- covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
-# fig H Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
-fig_H <- covid_data_augment %>% 
+# fig G Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
+fig_G <- covid_data_augment %>% 
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "38\\+"),
@@ -421,6 +374,51 @@ fig_H <- covid_data_augment %>%
               tip_length = sig_tip_length)
 
 
+# fig H Compare CEF and SARS multimer+ cells expression of surface markers -----
+fig_H <- covid_data_augment %>% 
+  filter(cohort_type == "Patient",
+         str_detect(Parent_population, "multimer"),
+         Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
+  drop_na(Hospital_status) %>%
+  ggplot(aes(x = Parent_population, 
+             y = Fraction, 
+             color = Parent_population))+
+  geom_boxplot(outlier.shape = NA,
+               width = boxplot_width)+
+  geom_dotplot(binaxis = "y",
+               stackdir = "center",
+               dotsize = dot_size,
+               fill = NA,
+               color = dot_color)+
+  facet_wrap(vars(Last_population),
+             scales = "free_y",
+             nrow = 1, 
+             strip.position = "bottom")+
+  scale_y_continuous(limits=c(0,115),
+                     breaks = seq(0,100, 25))+
+  scale_color_manual(labels = c("CEF", "SARS-CoV-2"),
+                     values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
+  theme_classic(base_size = text_size)+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "right",
+        legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.grid.major.y = element_line(),
+        strip.background = element_rect(colour=NA),
+        strip.placement = "outside",
+        aspect.ratio = 2)+
+  labs(title = "Expression of cell surface markers in COVID-19 patient",
+       y="% of multimer+ CD8+ T cells")+
+  theme(axis.title = element_text(size = 9))+
+  geom_signif(comparisons = list(c("CEF_multimer+", "SARS_multimer+")),
+              method = "kruskal.test",
+              map_signif_level = TRUE,
+              vjust = sig_vjust,
+              textsize = sig_textsize,
+              color = sig_color,
+              tip_length = sig_tip_length)
 
 # Save plots ----------------------------------------------------------
 
