@@ -41,7 +41,7 @@ fig_A <- covid_data_augment %>%
   filter(str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "CD45")) %>% 
   mutate(Last_population = case_when(Last_population =="CD45RA-_CCR7+" ~ "TCM",
-                                     Last_population =="CD45RA+_CCR7+" ~ "Naïve",
+                                     Last_population =="CD45RA+_CCR7+" ~ "Naive",
                                      Last_population =="CD45RA+_CCR7-" ~ "TEMRA",
                                      Last_population =="CD45RA-_CCR7-" ~ "TEM")) %>% 
   ggplot(aes(x = cohort_type, 

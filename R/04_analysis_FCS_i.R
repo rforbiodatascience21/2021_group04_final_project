@@ -226,6 +226,8 @@ fig_single_CD69 <- fcs_covid_data_umap %>%
 
 
 # Write data --------------------------------------------------------------
+write_tsv(x = fcs_covid_data_umap,
+          file = "data/04_fcs_covid_data_umap.tsv")
 
 ggsave(plot = fig_density_patient, 
        filename = "results/04_fcs_fig_density_patient.png", 
