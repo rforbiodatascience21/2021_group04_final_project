@@ -86,12 +86,13 @@ fig_A <- covid_data_augment %>%
               textsize = sig_textsize,
               color = sig_color,
               tip_length = sig_tip_length, 
-              step_increase = 0.1)
+              step_increase = 0.3,
+              y_position = 80)
 
 
 # fig B Compare HD to Patient multimer+ cells expression of surface markers ----
 
-fig_B <-covid_data_augment %>% 
+fig_B <-covid_data_augment %>%
   filter(str_detect(Parent_population, "SARS"),
          Last_population %in% c("CD27", "CD38", "CD39", "CD57", "CD69", "HLA-DR", "PD-1")) %>% 
   ggplot(aes(x = cohort_type, 
@@ -135,7 +136,8 @@ fig_B <-covid_data_augment %>%
               textsize = sig_textsize,
               color = sig_color,
               tip_length = sig_tip_length, 
-              step_increase = 0.1
+              step_increase = 0.1,
+              y_position = 90
               )
 
 
@@ -185,7 +187,7 @@ fig_C <- covid_data_augment %>%
               textsize = sig_textsize,
               color = sig_color,
               tip_length = sig_tip_length,
-              step_increase = 0.1)
+              step_increase = 0.2)
 
 
 #fig D line plot comparing individual marker expression between CEF and SARS multimer+ for each patient seperatly
@@ -231,7 +233,8 @@ fig_D <- covid_data_augment %>%
               vjust = sig_vjust,
               textsize = sig_textsize,
               color = sig_color,
-              tip_length = sig_tip_length)
+              tip_length = sig_tip_length,
+              y_position = 100)
 
 
 # fig E Compare Outpatient vs Hospitalized multimer+ cells --------------
@@ -322,7 +325,8 @@ fig_F <- covid_data_augment %>%
               vjust = sig_vjust,
               textsize = sig_textsize,
               color = sig_color,
-              tip_length = sig_tip_length)
+              tip_length = sig_tip_length,
+              y_position = 100)
 
 
 # fig G Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
@@ -371,7 +375,9 @@ fig_G <- covid_data_augment %>%
               vjust = sig_vjust,
               textsize = sig_textsize,
               color = sig_color,
-              tip_length = sig_tip_length)
+              tip_length = sig_tip_length,
+              y_position = 100
+              )
 
 
 # fig H Compare CEF and SARS multimer+ cells expression of surface markers -----
@@ -418,7 +424,8 @@ fig_H <- covid_data_augment %>%
               vjust = sig_vjust,
               textsize = sig_textsize,
               color = sig_color,
-              tip_length = sig_tip_length)
+              tip_length = sig_tip_length,
+              y_position = 100)
 
 # Save plots ----------------------------------------------------------
 
