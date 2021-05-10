@@ -75,7 +75,8 @@ fig_A <- covid_data_augment %>%
         aspect.ratio = 2)+
   labs(title = "Differentiation subsets in SARS-CoV-2 specific CD8+ T cells",
        subtitle = "-Based on expression of CD45RA and CCR7",
-       y = "% of multimer+ CD8+ T cells")+
+       y = "% of multimer+ CD8+ T cells",
+       caption = "P-values for one-way ANOVA (Krustal-Wallist Test)")+
   theme(axis.title = element_text(size = 12))+
   geom_signif(comparisons = list(c("HD-1", "Patient"),
                                  c("HD-2", "Patient")),
