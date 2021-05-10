@@ -138,10 +138,7 @@ include_graphics("../results/04_fig_B.png")
 include_graphics("../results/04_fig_C.png")
 ```
 
-## Figures D and E
-```{r fig_D, echo = FALSE, out.width = "800px", out.height= "400px", fig.align='center'}
-include_graphics("../results/04_fig_D.png")
-```
+## Figure E
 ```{r fig_E, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
 include_graphics("../results/04_fig_E.png")
 ```
