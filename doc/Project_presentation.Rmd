@@ -40,7 +40,10 @@ library("readxl")
 include_graphics("../doc/Pipeline-2.png")
 ```
 
-
+## Overview
+```{r overview , echo = FALSE, out.width = "900px", fig.align='center'}
+include_graphics("../doc/overview.png")
+```
 
 
 
