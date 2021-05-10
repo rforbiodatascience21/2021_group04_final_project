@@ -143,27 +143,27 @@ include_graphics("../results/04_fig_B.png")
 include_graphics("../results/04_fig_C.png")
 ```
 
+## Figure D
+```{r fig_D, echo = FALSE, out.width = "900px", out.height= "400px", fig.align='center'}
+include_graphics("../results/04_fig_D.png")
+```
+
 ## Figure E
-```{r fig_E, echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
+
+```{r fig_E, echo = FALSE, out.width = "1000px", fig.align='center'}
 include_graphics("../results/04_fig_E.png")
 ```
 
 ## Figure F
 
-```{r fig_F, echo = FALSE, out.width = "1000px", fig.align='center'}
+```{r fig_F, echo = FALSE, out.width = "900px", fig.align='center'}
 include_graphics("../results/04_fig_F.png")
 ```
 
 ## Figure G
 
-```{r fig_G, echo = FALSE, out.width = "900px", fig.align='center'}
+```{r fig_G, echo = FALSE, out.width = "1000px", fig.align='center'}
 include_graphics("../results/04_fig_G.png")
-```
-
-## Figure H
-
-```{r fig_H, echo = FALSE, out.width = "1000px", fig.align='center'}
-include_graphics("../results/04_fig_H.png")
 ```
 
 ## UMAP visualization
