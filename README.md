@@ -3,7 +3,7 @@
 ## Authors: 
 ##### Marcus Göransson, Marie Christine Viuff, Signe Koggersbøl Skadsborg, Susana Patricia Hernandez, Yogesh Basavaraju
 
-# OVERVIEW
+# Overview
 * The project utilizes flow cytometry data of immunophenotyping analysis on COVID-19 patient samples, which are then plotted to make analysis based on the changes in cell-surface markers expressed when the patient is infected with SARS-CoV2.
 * The raw data set is an excel file exported from the analysis software FlowJo.
 * The data used was generated at DTU Health Tech - Department of Experimental and Translational Immunology.
@@ -12,7 +12,15 @@
 
 
 # Packages used for the project
+* dplyr
 * tidyverse
 * devtools 
-* geomsignif
+* ggplot2
+* purrr
 * ggpubr
+* readxl
+* stringr
+* tibble
+* tidyr
+* flowCore
+* uwot
