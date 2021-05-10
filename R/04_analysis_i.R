@@ -144,7 +144,12 @@ fig_B <-covid_data_augment %>%
 # fig C Compare HD to Patients co-expresion of activation markers on SARS-CoV-2 specific T cells --------------
 fig_C <- covid_data_augment %>% 
   filter(str_detect(Parent_population, "SARS"),
-         str_detect(Last_population, "38\\+"))%>%  
+         str_detect(Last_population, "38\\+")) %>% 
+  mutate( Last_population = recode(Last_population,
+                                   "CD38+_CD39+" = "CD38+ CD39+",
+                                   "CD38+_CD69+" = "CD38+ CD69+",
+                                   "CD38+_HLA-DR+" = "CD38+ HLA-DR+",
+                                   "CD38+_PD-1+" = "CD38+ PD-1+")) %>%
   ggplot(aes(x = cohort_type, 
              y = Fraction, 
              color = cohort_type))+
@@ -161,7 +166,6 @@ fig_C <- covid_data_augment %>%
              strip.position = "bottom")+
   scale_y_continuous(limits=c(0,115),
                      breaks = seq(0,100, 25))+
-  scale_x_discrete(labels = c("CD38+ CD39+", "CD38+ CD69+","CD38+ HLA-DR+","CD38+ PD-1+"))+
   scale_color_manual(labels = c("HD1", "HD2", "Patient"),
                      values = c(boxplot_color_SARS_HD1,
                                 boxplot_color_SARS_HD2,
@@ -330,13 +334,18 @@ fig_F <- covid_data_augment %>%
 
 
 # fig G Compare Outpatient vs Hospitalized multimer+ cells co-expression of markers--------------
-fig_G <- covid_data_augment %>% 
+fig_G <- covid_data_augment %>%
   filter(cohort_type == "Patient",
          str_detect(Parent_population, "SARS"),
          str_detect(Last_population, "38\\+"),
          !is.na(Hospital_status)) %>% 
   mutate(Hospital_status = fct_relevel(Hospital_status, "Outpatient",
-                                       "Hospitalized")) %>% 
+                                       "Hospitalized"),
+         Last_population = recode(Last_population,
+                                  "CD38+_CD39+" = "CD38+ CD39+",
+                                  "CD38+_CD69+" = "CD38+ CD69+",
+                                  "CD38+_HLA-DR+" = "CD38+ HLA-DR+",
+                                  "CD38+_PD-1+" = "CD38+ PD-1+")) %>% 
   ggplot(aes(x = Hospital_status, 
              y = Fraction, 
              color = Hospital_status))+
@@ -353,7 +362,6 @@ fig_G <- covid_data_augment %>%
              strip.position = "bottom")+
   scale_y_continuous(limits=c(0,115),
                      breaks = seq(0,100, 25))+
-  scale_x_discrete(labels = c("CD38+ CD39+", "CD38+ CD69+","CD38+ HLA-DR+","CD38+ PD-1+"))+
   scale_color_manual(values = c(boxplot_color_SARS_Outpt,
                                 boxplot_color_SARS_Hosp))+
   theme_classic(base_size = text_size)+
