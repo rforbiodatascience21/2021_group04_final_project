@@ -106,6 +106,7 @@ fig_all_patient <- fcs_covid_data_umap_long %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
+        strip.text.x = element_text(size = 8),
         aspect.ratio = 1)+
   labs(title = "UMAP plot of SARS-CoV-2 patient",
        subtitle = "expression of biomarkers")
@@ -132,6 +133,7 @@ fig_all_HD <- fcs_covid_data_umap_long %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         strip.background = element_rect(colour=NA),
+        strip.text.x = element_text(size = 8),
         aspect.ratio = 1)+
   labs(title = "UMAP plot of healthy donor",
        subtitle = "expression of biomarkers")
@@ -241,13 +243,13 @@ ggsave(plot = fig_density_HD,
 ggsave(plot = fig_all_patient, 
        filename = "results/04_fcs_fig_all_patient.png", 
        units = "mm", 
-       height = 200, width = 200, dpi= 500)
+       height = 175, width = 200, dpi= 500)
 
 
 ggsave(plot = fig_all_HD, 
        filename = "results/04_fcs_fig_all_HD.png", 
        units = "mm", 
-       height = 200, width = 200, dpi= 500)
+       height = 175, width = 200, dpi= 500)
 
 ggsave(plot = fig_single_CD45RA, 
        filename = "results/04_fcs_fig_single_CD45RA.png", 
