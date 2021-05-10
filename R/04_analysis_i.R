@@ -11,6 +11,8 @@ library("ggsignif")
 # Load data ---------------------------------------------------------------
 covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 
+#creating results folder
+dir.create("results")
 
 # Visualise data ----------------------------------------------------------
 
