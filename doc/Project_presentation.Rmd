@@ -180,7 +180,7 @@ include_graphics("../results/04_fcs_fig_all_patient.png")
 
 
 ## Conclusion
-
-* list the main results!!
-
+* Healthy donors showed pre-existing T cell immunity to SARS-CoV-2, probably due to cross-reactivity of T cells to other human coronavirus. 
+* A strong activation profile of SARS-CoV-2-specific T cells was observed in COVID-19 patients, and it was further enhanced in hospitalized patients.  
+* UMAP visualization allows for a better visualization of the activation profile in the SARS-CoV-2-specific T cells. 
 
