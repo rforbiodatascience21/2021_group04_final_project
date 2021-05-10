@@ -17,10 +17,8 @@ fcs_covid_data_umap <- fcs_covid_data_aug %>%
 
 
 # Model data---------------------------------------------------------------
-seed <- 1234
 fcs_covid_data_umap <- fcs_covid_data_umap %>% 
   umap()
-
 
 fcs_covid_data_umap <- fcs_covid_data_umap %>% 
   as_tibble() %>% 
@@ -45,7 +43,7 @@ point_size <- 0.3
 
 font_size <- 14
 
-# density UMAP plot
+# density UMAP plot -------------------------------------------------------
 
 ## Covid patients concatenated
 fig_density_patient <- fcs_covid_data_umap %>% 
@@ -84,7 +82,7 @@ fig_density_HD <- fcs_covid_data_umap %>%
   labs(title = "UMAP density plot for a Healthy Donor")
 
 
-# Expression for every each marker
+# Expression for every each marker -----------------------------------
 
 # Covid patients concatenated
 
@@ -138,7 +136,7 @@ fig_all_HD <- fcs_covid_data_umap_long %>%
   labs(title = "UMAP plot of healthy donor",
        subtitle = "expression of biomarkers")
 
-# expression level for sigle markers
+# expression level for sigle markers --------------------------------------
 
 
 
@@ -205,7 +203,7 @@ fig_single_PD1 <- fcs_covid_data_umap %>%
        color = "Expression")
 
 
-## CD69
+## CD69 
 
 fig_single_CD69 <- fcs_covid_data_umap %>% 
   mutate(Sample = recode(Sample, "AP0301" = "Patient",
@@ -270,3 +268,4 @@ ggsave(plot = fig_single_CD69,
        filename = "results/04_fcs_fig_single_CD69.png", 
        units = "mm", 
        height = 100, width = 200, dpi= 500)
+
