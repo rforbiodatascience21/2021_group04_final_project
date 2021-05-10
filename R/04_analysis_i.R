@@ -15,7 +15,7 @@ covid_data_augment <- read_tsv(file = "data/03_covid_data_augment.tsv")
 # Visualise data ----------------------------------------------------------
 
 text_size <- 14
-dot_size <- 0.5
+dot_size <- 0.4
 dot_color <- "#696969"
 
 boxplot_width <- 0.5
@@ -159,7 +159,6 @@ fig_C <- covid_data_augment %>%
              strip.position = "bottom")+
   scale_y_continuous(limits=c(0,115),
                      breaks = seq(0,100, 25))+
-  scale_x_discrete(labels = c("CD38+ CD39+", "CD38+ CD69+","CD38+ HLA-DR+","CD38+ PD-1+"))+
   scale_color_manual(labels = c("HD1", "HD2", "Patient"),
                      values = c(boxplot_color_SARS_HD1,
                                 boxplot_color_SARS_HD2,
