@@ -6,6 +6,8 @@ output: ioslides_presentation
 widescreen: true
 smaller: true
 logo: "../doc/DTU logo.png"
+background: white
+
 ---
 
 ```{r setup, include=FALSE}
@@ -19,34 +21,32 @@ library("readxl")
 
 ## Introduction
 
-- The current COVID-19 pandemia, caused by the SARS-CoV-2 virus, has caused the death of more than 3.2 million people worldwide.  
+- The current COVID-19 pandemia, caused by the SARS-CoV-2 virus, has caused the death of more than 3.2 million people worldwide.
+
 - Studies in convalescent patients has shown a decline of antibody-mediated response a few months after infection. 
 
 - CD8+ T cells are critical for efficient clearance of virus-infected cells and long-term protection against SARS-CoV-2.
 
-- DTU HealthTech Department analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotype panel.
+- Saini *et al* have analyzed T cell recognition towards SARS-CoV-2-derived peptides in COVID-19 patients and healthy individuals using DNA-barcoded pMHC multimers combined with a T cell phenotyping.
 
 ## Objective
 
-- The project utilizes flow cytometry data published by Saini et al., 2021, to make a T cell phenotype analysis by comparing the expression of cell surface markers in COVID-19 patients and healthy individuals to better understand T cell immunity to SARS-CoV-2 infection.
+* In this project, we analyze the immunophenotypes of CD8 T cells that can recognize peptides from the SARS-CoV-2 genome 
+* We compare COVID-19 patients with healthy donors (HD) never exposed to the virus.
+* Furthermore, we compare the phenotypes to the severity of the disease.
+* We also compare the phenotype of the SARS-CoV-2 specific CD8 T cells with T cells that recognize common viruses.
 
 ```{r, echo=FALSE, warning=FALSE, out.width = "1000px", fig.align='center', fig.cap="Fig. 1-Experimental pipeline for T cell identification from COVID-19 patients."}
 include_graphics("../doc/Pipeline-2.png")
 ```
 
-* The COVID-19 pandemic is caused by the highly infectious virus; SARS-CoV-2. 
-* CD8+ T cells perform essential functions in the control and elimination of viral infections
-* Here, we analyze the immunophenotypes of CD8 T cells that can recognize peptides from the SARS-CoV-2 genome 
-* We compare COVID-19 patients with healthy donors (HD) never exposed to the virus.
-* Furthermore, we compare the phenotypes to the severity of the disease.
-* We also compare the phenotype of the SARS-CoV-2 specific CD8 T cells with T cells that recognize common viruses.
+
 
 
 
 ## Materials and methods
 
 ### Phenotype data
-
 
 - Phenotyping of immune cells provides imformation abouts the activation status of the cells
 - This is obtained through antibody staining and flow cytometry, which transforms a fluorescent signal into a voltage.
@@ -98,17 +98,23 @@ covid_data_augment
 
 ## FCS files
 
-* Fcs files are the raw data files obtained with flow cytometry.
+* FCS files are the raw data files obtained with flow cytometry.
 * In addition to manual gating in FlowJo, these files can be used for clustering and visualizing the cells' expression levels of multiple parameters in 2 dimensions with UMAP (Uniform Manifold Approximation and Projection).
+
+Pipeline
+
+* Read multiple FCS files (flowCORE) and downsample
+* Tidying the data set by renaming the samples and variables
+* Scale transformation
+* Calculate UMAP coordinates (uwot)
+
 
 ## Visualizing the data
 
-* Reading covid_data_augment
-* Filtering on specific cell populations
-* Generate plot using ggplot - Boxplot and dotplot
+* Wrangle data for visualization
+* Generate plot using ggplot - Boxplot, dotplot, hexplot (2d density plot)
 * Multiple plots generated for different surface markers
-* Statistical significance test was added to the visualization
-
+* Statistical test was added to the visualization
 
 
 
@@ -160,9 +166,16 @@ include_graphics("../results/04_fig_H.png")
 
 ## UMAP visualization
 
-```{r UMAP , echo = FALSE, out.width = "900px", out.height= "300px", fig.align='center'}
-# include_graphics("../results/04_fig_UMAP.png")
+```{r UMAP_density, echo = FALSE, out.width = "50%", out.height= "50%", fig.show='hold'}
+include_graphics("../results/04_fcs_fig_density_HD.png")
+include_graphics("../results/04_fcs_fig_density_patient.png")
 ```
+
+## UMAP visualization
+```{r UMAP_heatmap, echo = FALSE, out.width = "600px", out.height= "525px", fig.align='center'}
+include_graphics("../results/04_fcs_fig_all_patient.png")
+```
+
 
 ## Conclusion
 
