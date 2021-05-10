@@ -65,9 +65,9 @@ covid_data <- read_tsv(file = "../data/01_covid_data.tsv")
 ```
 
 
-## Raw data {.smaller}
+## Gated data: Raw {.smaller}
 
-* The dataset is obtained from S. K. Saini *et al., Sci. Immunol.* (2021)
+* The gated dataset is obtained from S. K. Saini *et al., Sci. Immunol.* (2021)
 
 ```{r}
 covid_data_raw
@@ -75,7 +75,7 @@ covid_data_raw
 
 
 
-## Data wrangling 
+## Gated data: Wrangling 
 ### Tidying the data set
 * Change NA values
 * Add cohort group as a new variable
@@ -112,6 +112,26 @@ Pipeline
 ```{r Bioclogo , echo = FALSE, out.width = "100px", fig.align='right'}
 include_graphics("../doc/Bioconductor logo.png")
 ```
+
+## FCS data: Raw {.smaller}
+
+* Raw data obtained by reading FCS files in R
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+fcs_covid_data <- read_tsv(file = "../data/01_fcs_covid_data.tsv") 
+fcs_covid_data %>% 
+tibble()
+```
+
+## FCS data: Wrangling and modelling {.smaller}
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+fcs_covid_data_umap <- read_tsv(file = "../data/04_fcs_covid_data_umap.tsv") 
+fcs_covid_data_umap %>% 
+tibble()
+```
+
 
 ## Visualizing the data
 
@@ -183,7 +203,10 @@ include_graphics("../results/04_fcs_fig_all_patient.png")
 
 
 ## Conclusion
-* Healthy donors showed pre-existing T cell immunity to SARS-CoV-2, probably due to cross-reactivity of T cells to other human coronavirus. 
-* A strong activation profile of SARS-CoV-2-specific T cells was observed in COVID-19 patients, and it was further enhanced in hospitalized patients.  
-* UMAP plot allows for a better visualization of the activation profile in the SARS-CoV-2-specific T cells. 
-
+* Healthy donors showed pre-existing T cell immunity to SARS-CoV-2 
+<br>
+* Hospitalized patients showed strong activation profile <br> of SARS-CoV-2-specific T cells
+<br>
+* UMAP for visualization of populations
+<br>
+* R - flexible alternative to FlowJo plugin and visualization tools like GraphPad 
