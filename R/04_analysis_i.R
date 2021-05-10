@@ -214,7 +214,7 @@ fig_D <- covid_data_augment %>%
                      values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
   theme(plot.title = element_text(hjust = 0.5),
-        legend.position = "bottom",
+        legend.position = "right",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -261,7 +261,7 @@ fig_E <- covid_data_augment %>%
                      values = c(boxplot_color_CEF,boxplot_color_SARS_pt))+
   theme_classic(base_size = text_size)+
   theme(plot.title = element_text(hjust = 0.5),
-        legend.position = "bottom",
+        legend.position = "right",
         legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
