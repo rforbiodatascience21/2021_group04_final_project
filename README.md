@@ -14,7 +14,6 @@
 # Packages used for the project
 * dplyr
 * tidyverse
-* devtools 
 * ggplot2
 * purrr
 * ggpubr
