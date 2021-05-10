@@ -5,7 +5,7 @@ date: "11 May 2021"
 output: ioslides_presentation
 widescreen: true
 smaller: true
-logo:"/doc/DTU_Logo_Corporare_Red_CMYK.png"
+logo: "../doc/DTU logo.png"
 ---
 
 ```{r setup, include=FALSE}
